@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to Artifactory</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="introduction-to-artifactory" class="anchor" href="#introduction-to-artifactory"><span class="octicon octicon-link"></span></a>Introduction to Artifactory</h3>
+
+<p><a href="http://jfrog.com/artifactory/" target="_new"><img src="images/Artifactory_HEX_inline-300x90.png" /></a><br />
+"As the first, and only, universal Artifact Repository Manager on the market" <a href="http://jfrog.com/artifactory/" target="_new">Artifactory</a> from <a href="https://www.jfrog.com/" target="_new">JFrog</a> can help you solve two frequently encountered automation problems in application development and deployment.<br />
+<br />
+First up, Artifactory will work as a repository manager for your project's custom developed or externally consumed dependency <a href="https://www.jfrog.com/artifactory/features/">libraries or packages or modules</a>.  This provides reliability and efficiency through local caching of those external dependencies.<br />
+<br />
+Secondly, Artifactory will store the compiled version of your applications for distribution.  <a href="./git.hml">Git</a> stores the source code, but the compiled artifacts go in to Artifactory for distribution to your application servers.<br />
+<br />
+Those sound similar but come down to using the same artifacts in two different ways.  First was using the artifact as a dependency to compile other applications.  This might be a Java JAR to calculate taxes on purchases.  The second is about runtime deployment of a Java WAR to a J2EE application server.
+</p>
+
+<h3><a name="repository-mirroring" class="anchor" href="#repository-mirroring"><span class="octicon octicon-link"></span></a>Repository mirroring</h3>
+<p>
+  A common use case for Artifactory is to be a proxy in locked down enterprises.  Get Artifactory up and running and then configure <a href="https://maven.apache.org/" target="_new">Maven</a> (a Java build and dependency management tool) or <a href="https://rubygems.org/" target="_new">Ruby Gems</a> to be requested from the Artifactory server.  The security team will whitelist the single Artifactory server to have outside access and developers' machines can remain safely locked down.  If Artifactory doesn't have the request resource, it will download it and store it for future usage.<br />
+  <br />
+  Having Artifactory run as your proxy does provide some ease of use as a proxy, but the biggest gains are seen on subsequent requests.  You are not going to "<a href="http://blog.sonatype.com/2011/04/how-not-to-download-the-internet/" target="_new">download the Internet</a>" from the actual Internet.  Instead, after the first request for a library, you will be downloading the library from your local Artifactory instance!  Depending on the size and scope of your application this can save seconds or even save minutes from each build cycle.<br />
+  <br />
+  With great mirroring comes great disk space.  A well used Artifactory server can chew through terabytes of storage.  Make sure you have attached enough storage to your instance for the load it will handle.  One alternative in the Pro version of Artifactory is making use of Amazon AWS S3 storage.  This will give you easily expanding storage should you need it.
+
+<h3><a name="repository-types" class="anchor" href="#repository-types"><span class="octicon octicon-link"></span></a>Types of repositories</h3>
+<p>
+  In my experience, if a programming tool has a versioning based system for releasing artifacts, then <a href="https://www.jfrog.com/artifactory/features/" target="_new">Artifactory has built the ability</a> to properly serve those versioned artifacts.  Review the bottom two rows of the graphic below.  Those are most of the types of artifacts you can upload to Artifactory and then properly serve back out to your users.<br />
+  <img src="images/Artifactory-eco-system-artifactorypage1.png" alt="from https://www.jfrog.com/artifactory/" /><br />
+  The most useful of the list I find to be:
+  <ul>
+    <li>Debian/apt mirroring</li>
+    <li>RPM/Yum mirroring</li>
+    <li>Maven mirroring</li>
+    <li>Ruby Gems mirroring</li>
+    <li>Manually uploading files for HTTP access  &lt;-- My favorite!</li>
+  </ul>
+  Some surprising mirroring options include:
+  <ul>
+    <li>Vagrant boxes</li>
+    <li>Eclipse plugins</li>
+  </ul>
+
+<h3><a name="artifactory-versions" class="anchor" href="#artifactory-versions"><span class="octicon octicon-link"></span></a>The versions of Artifactory</h3>
+<p>
+  Be aware that Artifactory has <a href="https://www.jfrog.com/artifactory/versions/" target="_new">mulitple versions</a>, mostly breaking down between the free OSS version, the paid Pro versions or a Cloud based version.  This demo is using an evaluation copy of Artifactory Pro which has support for numerous types of repositories, including what we will be using today.<br />
+  <br />
+  Most every tool in the Automation Tools Bootcamp is free or easily successful with the free version.  But with Artifactory I want to steer you one of the paid versions.  The biggest gain is the support for the extra types of repositories.  And rationalizing the payment for Artifactory comes back pretty quickly using the mirroring options.  If build times go from 5 minutes to 2 minutes by removing external downloads, in each build you are saving 3 minutes of your developers' time.  The break-even point is easily obtainable there and makes purchasing a Pro version of Artifactory an easy recommendation.
+
+<h3><a name="artifactory-alternatives" class="anchor" href="#artifactory-alternatives"><span class="octicon octicon-link"></span></a>Alternatives to Artifactory</h3>
+
+<p>
+Artifactory is not the only player in the repository management game.  It is nice to have choices and you might have better success with one of these.
+<ul>
+  <li><a href="http://www.sonatype.org/nexus/" target="_new">Nexus by Sonatype</a></li>
+  <li><a href="https://packagecloud.io/" target="_new">PackageCloud</a></li>
+  <li><a href="http://inedo.com/proget" target="_new">ProGet</a></li>
+  <li><a href="https://www.jfrog.com/bintray/" target="_new">Bintray by JFrog</a> if you simply want to serve out artfacts</li>
+</ul>
+</p>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>We are going to complete the following actions with Artifactory</p>
+<ol>
+  <li>Get in the <code>deployments</code> directory of the Automation Tools git repo and <code>vagrant up</code> our trusty VM</li>
+  <li>Start up an Artifactory server using a Docker container. <code>sudo docker run --name artifactory -p 80:80 -p 8081:8081 -p 443:443 -p 5000-5002:5000-5002 jfrog-docker-reg2.bintray.io/jfrog/artifactory-registry:latest</code></li>
+  <li>Open the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web server</a> you just started up in a browser tab.</li>
+  <li>Artifactory will prompt you for a license key, it is available as a "pinned" message in the <code>#general</code> room on Automation Tools Slack.</li>
+  <li>Change the <a href="https://www.jfrog.com/confluence/display/RTF/Managing+Users" target="_new">default login credentials</a> from <code>admin/password</code> to have a different password.</li>
+  <li>Add a custom image header in the General Configuration to differentiate your server from others.</li>
+  <li>Give the <code>anonymous</code> user "Delete/Overwrite" access in the Security section of the Artifactory admin.<br />
+  <em>You would *never* do this in real life.  But this is a class and this makes the rest of the day simpler.</em></li>
+  <li>This container for Artifactory already as a Docker registry enabled!  We'll use that later.</li>
+  <li>Now we will make our own "Generic" repository called <code>atb</code>.</li>
+  <li>Then Deploy a file to the generic <code>atb</code> repo using the web interface.  Any file, try a zip file.  Then download the file from Artifactory.  Notice the download count - helpful to guage your artifact's popularity or usage.</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

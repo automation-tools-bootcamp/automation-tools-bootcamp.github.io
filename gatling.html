@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to Gatling</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="introduction-to-gatling" class="anchor" href="#introduction-to-gatling"><span class="octicon octicon-link"></span></a>Introduction to Gatling</h3>
+
+<p><img src="images/gatling_stress_logo.png" /><br />
+  "<a href="http://gatling.io/" target="_new">Gatling</a> is an open-source load testing framework based on Scala, Akka and Netty."  Which is an overly precise way of saying "Gatling is a load testing tool".  There are other tools in in the load testing space as well, but I like Gatling for two main reasons 1) the beautiful reports Gatling generates and 2) it has a great <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gatling+Plugin" target="_new">Jenkins plugin</a>.
+</p>
+
+<h3><a name="total-beauty-eh" class="anchor" href="#total-beauty-eh"><span class="octicon octicon-link"></span></a>Those beautiful reports</h3>
+<p>
+  I was sold on Gatling when I saw the reports it generates.  Others in the field may be catching up, but when Gatling burst on the scene they were light years ahead of others like JMeter.<br />
+  <img src="images/gatling_resultat_requete_books.png" alt="from http://blog2dev.blogspot.fr/2013/12/gatling-test-de-tres-fortes-montees-en.html" /><br />
+  Meanwhile in JMeter land you can get this.
+  <img src="images/jmeter_graph_results.png" alt="from http://jmeter.apache.org/usermanual/component_reference.html#Graph_Results" /><br />
+  <br />
+  The difference is also in the medium they are being presented, HTML vs a Java executable.  But given the choice, 10 times out of 10 times I am going with those pretty HTML reports.
+</p>
+
+<h3><a name="creating-a-script" class="anchor" href="#creating-a-script"><span class="octicon octicon-link"></span></a>Creating a Gatling testing script</h3>
+<p>
+  The script Gatling uses to generate load on your application is just code, and will be managed in source code accordingly.  But the process for creation of the script can be simplified using a recorder.  This starts the Gatling executable to run as a proxy and record the clicks you make in your browser.  Here is what the UI for Gatling's Recorder looks like.<br />
+  <img src="images/gatling-recorder1.png" alt="from http://gatling.io/docs/2.1.7/quickstart.html" />
+  The output of this recording session will be what you store in Git to execute as validation for each build.<br />
+  <br />
+  The Recorder does not just record what URLs you browse to, but also the delays between clicks to properly replicate user sequences.  So take your time when making a recording.  Replicate the tasks as actual users would.  And when you test your app, this will recreate those experiences as they happen in the wild.
+</p>
+
+<h3><a name="running-a-script" class="anchor" href="#running-a-script"><span class="octicon octicon-link"></span></a>Running a Gatling testing script</h3>
+<p>
+  There are two methods to running the script(s) that you have created.  Using the Gatling executable or executing Gatling as a Maven.  Both generate the exact same reports, but give you the choice for the best way to automate their execution.  Using Maven to execute the test script would be the heavier weight option, but integrates nicely for Java projects (as well as Jenkins does really well).<br/>
+  <br />
+  If you have Gatling installed on your machine you will run with <code>gatling.bat</code> or <code>gatling.sh</code> (depending on your system's OS).  It will generate some prompts asking you which of your scripts you want to run and what you want to call the generated report.<br />
+  <br />
+  Running Gatling through Maven, again will generate the same reports, but you don't actually need the Gatling executables installed on the machine running Gatling.  Instead a project's <code>pom.xml</code> will have the Gatling dependencies defined.  It will look something like <a href="https://github.com/gatling/gatling-maven-plugin-demo/blob/master/pom.xml" target="_new">this example pom.xml file</a> from Gatling.  If you are already working with Maven as your application's build tool this is an excellent piece of synergy to leveage.
+</p>
+
+<h3><a name="what-you-learn" class="anchor" href="#what-you-learn"><span class="octicon octicon-link"></span></a>What load testing can teach you</h3>
+<p>
+  A common goal in stress testing an application to is find bottlenecks in the code. But with the ability to bring up <a href="./terraform.html">entire environments</a> to test each build we can look for choke points in the infrastructure too.<br />
+  <br />
+  Maybe your application's message queue starts backing up under load. You can ensure it is running with an SSD or more RAM to alleviate that pain. Or you saturate the connection to your SAN under load. These are not necessarily code issues, but they were identified by throwing load at your application.<br />
+  <br />
+  Along with immediate failures, running a stress test on each build or release of your application(s) will give you charts and graphs over time.  Having historical data will open up trends.  Is your product page getting slower and slower to load as the Product Managers add more content or features to it?  This will give you proof the page is loading slower now than before.<br />
+  <br />
+  Or worse, the most recent build introduced a two second spike in page processing times.  It might be from a new required feature and to a human user it will "feel" slower.  But the page going from .5 second to 2.5 seconds is a radical change that will appear on a graph as a "fact" instead of a "feeling".
+</p>
+
+<h3><a name="alternatives-to-gatling" class="anchor" href="#alternatives-to-gatling"><span class="octicon octicon-link"></span></a>Alternatives to Gatling</h3>
+<p>
+  Some <a href="http://alternativeto.net/software/jmeter/" target="_new">alternatives to Gatling</a> would include <a href="http://jmeter.apache.org/" target="_new">JMeter</a> and online services like <a href="https://octoperf.com/" target="_new">OctoPerf</a>.<br />
+  <br />
+  Gatling is not all sunshine and roses.  It does have some downsides compared to these alternatives.  The biggest one is they have the ability, especially the <a href="https://en.wikipedia.org/wiki/Software_as_a_service" target="_new">SaaS</a> providers, to apply a distributed load to your app to better simulate real world latency.  Running a load test on a local machine can be useful to identify some types of programming bottlenecks, but if you have a networking bottleneck for users in Japan you wouldn't see it in your local testing.
+</p>
+
+<h3><a name="ddos" class="anchor" href="#ddos"><span class="octicon octicon-link"></span></a>Don't DOS yourself</h3>
+<p>
+  With a stress testing tool it is important to remember the power you are working with.  Changing a script from 10 users to 1000 users is just two more zeros, but could quickly become a self-inflicted <a href="https://en.wikipedia.org/wiki/Denial-of-service_attack" target="_new">denial-of-service (DOS)</a> attack on your own systems.  So tread lightly when ramping up the load of your test suites.
+</p>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>We are going to complete the following actions</p>
+<ol>
+  <li>Once again, we will be using our VM to run Gatling.  So <code>vagrant up</code> if you have not already done so.</li>
+  <li>Fork the <a href="https://github.com/gatling/gatling-maven-plugin-demo" target="_new">demo Gatling Maven project</a> so you have write access to it.</li>
+  <li>Configure a new Maven job in Jenkins named <code>gatling-demo</code> with the "Goals and options" of <code>gatling:execute</code> to run Gatling.</li>
+  <li>Manually run the job and see that it works.</code></li>
+  <li>View your new Gatling reports that were generated.  If they are not visible in the Jenkins job's page, make sure you added the Post-build Actions of <code>Track a Gatling load simulation</code></li>
+  <li>Change line 55 of <code>src/test/scala/computerdatabase/BasicSimulation.scala</code></li>
+  <ul>
+    <li>from <code>setUp(scn.inject(atOnceUsers(1)).protocols(httpConf))</code></li>
+    <li>to <code>setUp(scn.inject(rampUsers(10) over (30 seconds)).protocols(httpConf))</code></li>
+    <li>Make sure you <code>git commit</code> and <code>git push</code> the change</li>
+  </ul>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

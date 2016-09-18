@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to InSpec</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="introduction-to-inspec" class="anchor" href="#introduction-to-inspec"><span class="octicon octicon-link"></span></a>Introduction to InSpec</h3>
+
+<p><img src="images/chef-logo.png" /><br />
+  <br />
+<a href="https://www.chef.io/inspec/" target="_new">InSpec</a> is an Auditing and Testing Framework from <a href="https://chef.io" target="_new">Chef</a>.<br />
+<br />
+You are probably familiar with Chef providing tools to <a href="./chef.html">configure your machines</a>.  InSpec is a new tool extending the scope where Chef can watch over your machines for their entire lifecycle.  The use InSpec does not require a Chef Server or the Chef Client.  InSpec is focused on proving your systems are in an expected state.<br />
+<br />
+This can mean a user account exits on the machine, certain rules for password requirements are being met, services are running as expected and more.</p>
+
+<h3><a name="vs-serverspec" class="anchor" href="#vs-serverspec"><span class="octicon octicon-link"></span></a>Going beyond ServerSpec</h3>
+<p>
+InSpec shares its roots with another tool, <a href="http://serverspec.org/" target="_new">ServerSpec</a>, which is also a Ruby <a href="http://rspec.info" target="_new">RSpec</a> based testing framework.  There are two key differentiators from ServerSpec that I appreciate the most.<br />
+<br />
+First up - InSpec has connection protocols built-in which allow it to talk directly to remote systems over SSH, WinRM or to Docker containers. These transports allows you to have a central machine watching over your flock of machines.  If you are really interested in this type of setup, Chef has a commercial offering called the <a href="https://www.chef.io/compliance/" target="_new">Compliance Server</a>.  It is a powerful ally to running your InSpec tests, but is not required to run your InSpec tests.  You can achieve the same core functionality by having a Jenkins job execute InSpec against various remote machines, but you would be on your own to generate the resulting alerts and reports.<br />
+<br />
+Secondly, InSpec allows you to give each control group you create an <code>impact</code> score to weigh the importance of the rules you are writing.  Having <code>telnet</code> enabled can be ranked as a show stopper.  But unexpected contents in your application's configuration file could only raise a warning.  Using the <code>impact</code> score to improve your signal to noise ratio of the alerts being raised can be an invaluable gain.
+</p>
+
+<h3><a name="always-be-testing" class="anchor" href="#always-be-testing"><span class="octicon octicon-link"></span></a>Always be testing</h3>
+<p>
+You don't want your machines to be in compliance just at the moment they are turned on and initially configured. You <em>*need*</em> your machines to always be compliant.  Depending on your business needs this can mean validation once a day, once a week or once every 15 minutes.  The more frequently you validate your machines, the quicker you can identify what (and hopefully correspondingly who) changed the system.  I recommend scanning them as frequently as is possible and useful to you.
+
+<h3><a name="standard-tests" class="anchor" href="#standard-tests"><span class="octicon octicon-link"></span></a>Standard Tests</h3>
+<p>
+  The work you do probably is goverened by some standard compliance rules like following <a href="https://www.cisecurity.org/" target="_new">Center for Internet Security (CIS)</a> benchmark or <a href="https://www.pcisecuritystandards.org/" target="_new">Payment Card Industry (PCI)</a> compliance rules.  These are standard tests and users are posting shared compliance profiles to the <a href="https://supermarket.chef.io/tools?type=compliance_profile" target="_new">Chef Supermarket</a>.  Look for this list to grow with time.
+</p>
+
+<h3><a name="summary" class="anchor" href="#summary"><span class="octicon octicon-link"></span></a>Summary</h3>
+<p>
+  Combining InSpec in to your development workflow and production monitoring will give you the benefit of ensuring your machines are in a consistent state of being.  More importantly - any future changes to your machines will maintain consistent state or raise an alert.  A quick fingered admin who likes to get directly on machines and update configurations can be kept in check by InSpec with quick alerts after their changes have brought a machine out of compliance.
+</p>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>We are going to complete the following actions</p>
+<ol>
+  <li>InSpec is installed on our trusty VM.  So if you have not already <code>vagrant up</code> from inside the <code>deployments</code> folder of this project's git repo.</li>
+  <li>We're going to execute the example <a href="https://github.com/hardening-io/tests-os-hardening/tree/2.0#standalone-usage" target="_new">OS Hardening profile</a> against our VM.</li>
+  <ul>
+    <li><code>git clone http://github.com/hardening-io/tests-os-hardening</code></li>
+    <li><code>git checkout 2.0</code> because the code we need is not yet on the master branch.  But <a href="./git.html">we know Git</a></li>
+    <li><code>inspec exec tests-os-hardening</code></li></ul>
+  <li>See the results, try and change something, and run InSpec again to see if it is resolved.</li>
+  <li>Now use that same profile against one of our Docker containers from the <a href="./terraform.html#workout">Terraform workout</a>.  An example of using InSpec with the <code>docker://</code> transport is in the <a href="https://github.com/chef/inspec#detect" target="_new">InSpec README</a>.</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

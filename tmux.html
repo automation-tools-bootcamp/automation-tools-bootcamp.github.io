@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to tmux</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="introduction-to-tmux" class="anchor" href="#introduction-to-tmux"><span class="octicon octicon-link"></span></a>Introduction to tmux</h3>
+
+<p><img src="images/tmux.png" /><br />
+Here is a short divergence from server-side tools to one that helps your daily terminal experience.  It is a terminal multiplexer called <a href="https://tmux.github.io/" target="_new">tmux</a>.<br />
+<br />
+What does a terminal multiplexer do?  It allows your one terminal session to become many terminal sessions that look like this.<br />
+<img src="images/tmux2.png" alt="from https://tmux.github.io/" />
+</p>
+
+<h3><a name="powered-by-shortcuts" class="anchor" href="#powered-by-shortcuts"><span class="octicon octicon-link"></span></a>Powered by keyboard shortcuts</h3>
+<p>
+  We're working in the terminal here.  So everything will be activated by keyboard shortcuts.<br />
+  <br />
+  Tmux does have one problem though.  The default keyboard shortcuts SUCK.  If you're familiar with <code>screen</code>, it used a <code>ctrl-A</code> based activation sequence.  Tmux uses <code>ctrl-b</code> which is fine, but not what I was used to.<br />
+  <br />
+  Further more, the keys to create new panes and adjust them were not intuitive.  So for usability I followed the guide in the Pragmatic Programmers <a href="https://pragprog.com/book/bhtmux/tmux" target="_new">tmux - Productive Mouse Free Development</a>.<br />
+  <br />
+  Their example <code>.tmux.conf</code> file is available in the book's <a href="https://pragprog.com/titles/bhtmux/source_code" target="_new">Source Code</a> section.
+</p>
+
+<h3><a name="common-shortcuts" class="anchor" href="#common-shortcuts"><span class="octicon octicon-link"></span></a>The Common Shortcuts</h3>
+<p>
+  Remember - these are the common shortcuts of a modified tmux configuration.  But this configuration is loaded on to the classes VM, so I encourage you to be in tmux throughout the day's work.<br />
+  <br />
+  Creating panes
+  <ul>
+    <li><code>ctrl-a + |</code> (that is a pipe) splits the pane horizontally</li>
+    <li><code>ctrl-a + -</code> splits the pane vertically</li>
+  </ul>
+  Moving between panes - think vi movements
+  <ul>
+    <li><code>ctrl-a + h</code> Move the cursor to the pane to the right</li>
+    <li><code>ctrl-a + j</code> Move the cursor to the pane above</li>
+    <li><code>ctrl-a + k</code> Move the cursor to the pane below</li>
+    <li><code>ctrl-a + l</code> Move the cursor to the pane to the left</li>
+  </ul>
+  Adjusting the size of panes
+  <ul>
+    <li><code>ctrl-a + H</code> Make the pane larger to the right</li>
+    <li><code>ctrl-a + J</code> Make the pane larger above</li>
+    <li><code>ctrl-a + K</code> Make the pane larger down</li>
+    <li><code>ctrl-a + L</code> Make the pane larger to the left</li>
+  </ul>
+  Swap a panes location
+  <ul>
+    <li><code>ctrl-a + }</code> Moves the current content right</li>
+    <li><code>ctrl-a + {</code> Moves the current content left</li>
+  </ul>
+</p>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>We are going to complete the following actions</p>
+<ol>
+  <li>tmux is already installed on our Deployments VM.  So <code>vagrant up</code> in the <code>deployments</code> folder of this project's Git repo.</li>
+  <li>Start up <code>tmux</code>.  You won't notice much difference at first.</li>
+  <li>Make the panes in the tmux session look like the picture above.  Two panes on the left half, two panes on the right half.  The left half split "unevenly".</li>
+  <li>That's it!</a>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

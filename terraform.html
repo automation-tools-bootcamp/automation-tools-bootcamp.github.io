@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to Terraform</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Terraform</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a name="introduction-to-terraform" class="anchor" href="#introduction-to-terraform"><span class="octicon octicon-link"></span></a>Introduction to Terraform</h3>
+
+<p><img src="images/terraform.png" width="300" /><br />
+<br />
+Your applications are code.<br />
+The configuration of your server <a href="./chef.html">are now code</a>.<br />
+<br />
+So the next logical step is to have the creation of the machine resources for your application run as code too!<br />
+<br />
+"<a href="http://www.terraform.io" target="_new">Terraform</a> provides a common configuration to launch infrastructure. ... Simple file based configuration gives you a single view of your entire infrastructure." <a href="https://github.com/hashicorp/terraform" target="_new">Terraform is open source</a> and watched over by creator Mitchell Hashimoto and the team at Hashicorp.<br />
+<br />
+<a href="https://www.terraform.io/intro/index.html" target="_new">Official Intro to Terraform</a>
+<br />
+</p>
+
+<h3><a name="paper-china" class="anchor" href="#paper-china"><span class="octicon octicon-link"></span></a>Paper plates vs fine china</h3>
+
+<p>Think of the analogy of Paper plates vs fine china.  The china is <em>*nice*</em>.<br />
+  <img src="images/fine-china.jpg" alt="from http://www1.macys.com/shop/product/kate-spade-new-york-june-lane-5-piece-place-setting?ID=110997&CategoryID=53630"/><br />
+  Alas the china is also an expensive alternative to the equally functional paper plate.<br />
+  <img src="images/paper-plates.png" alt="from http://www.contentbycasey.com/2013/03/preschool-craft-idea-paper-plate.html" /><br />
+  Your work wants you to be functional, not luxurious.  To be functional you need to be fast and efficient.  So deploy your app on to the commodity compute resource that is akin to a paper plate.  And make your requests for paper plates efficient and repeatable with code!
+
+<h3><a name="infrastructure-as-code" class="anchor" href="#infrastructure-as-code"><span class="octicon octicon-link"></span></a>Infrastructure as Code</h3>
+<p>This genre of tool goes by the name "Infrastructure as Code".  A good tool in this space will have support for all aspects of your provider.  We are not just able to request compute resources, but also requesting storage and networking configurations with code!<br />
+<br />
+Aside from Terraform, there are other tools in this space you can research too.
+<ul>
+  <li><a href="http://www.scalr.com/" target="_new">Scalr</a></li>
+  <li><a href="https://github.com/chef/chef-provisioning" target="_new">Chef Provisioning</a></li>
+  <li><a href="https://aws.amazon.com/cloudformation/" target="_new">AWS CloudFormation</a></li>
+  <li><a href="http://www.sparkleformation.io/" target="_new">SparkleFormation</a></li>
+</ul>
+
+<h3><a name="terraform-providers" class="anchor" href="#terraform-providers"><span class="octicon octicon-link"></span></a>Terraform Providers</h3>
+<p>
+The reason I selecting Terraform over some of the providers above is because of the thorough support for the leading providers of API based resources - AKA Providers.<br />
+<ul>
+  <li>AWS</li>
+  <li>OpenStack</li>
+  <li>Azure</li>
+  <li>DNSimple</li>
+  <li>PostgreSQL</li>
+  <li>Docker</li>
+  <li>Digital Ocean</li>
+  <li>VMWare vCloud or vSphere</li>
+  <li><a href="https://www.terraform.io/docs/providers/index.html" target="_new">many others</a></li>
+</ul>
+</p>
+
+<h3><a name="extra-reading" class="anchor" href="#extra-reading"><span class="octicon octicon-link"></span></a>Extra Reading</h3>
+<p>
+Here are some articles from people who have put Terraform through the paces more than I have<br />
+<ul>
+  <li><a href="http://charity.wtf/2016/02/23/two-weeks-with-terraform/" target="_new">Two Weeks with Terraform by Charity Majors</a></li>
+  <li><a href="https://blog.docker.com/2015/01/dockercon-eu-breakouts-from-day-2/" target="_new">Orchestrating Docker with Terraform and Consul by Mitchell Hashimoto</a></li>
+  <li><a href="https://blog.starkandwayne.com/2014/10/16/terraforming-workloads-with-docker-and-digital-ocean/" target="_new">Terraforming workloads with Docker and Digital Ocean by Long Nguyen</a></li>
+</ul>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>We are going to complete the following actions</p>
+<ol>
+  <li>Terraform is already installed on our VM.  So <code>vagrant up</code> in the <code>deployments</code> folder of this project's Git repo.</li>
+  <li>Go in to the <code>/vagrant/terraform</code> directory on the VM.</li>
+  <li>Run a <code>terraform</code> command to verify the execute is ready.</li>
+  <li>Review the <code>tutum-hello-world.tf</code> file that already exists.</li>
+  <li>What Provider is it using?  What resources are being created?</li>
+  <li>Check what will happen if Terraform ran this file with the <code>terraform plan</code> command.</li>
+  <li>Now that we know what Terraform will do.  Have Terraform do it by running the <code>terraform apply</code> command.</li>
+  <li>Running Docker containers is often about quantity.  So let's now run five of the <code>hello-world</code> container.  Change the <code>tutum-hello-world.tf</code> file to spin up five instances of our container.</li>
+  <li>Verify this by running <code>terraform plan</code> again.</li>
+  <li>We can make the change happen with <code>terraform apply</code> and verify it is running with the <code>terraform show</code> command.</li>
+  <li>We are done here.  Time to destroy everything.  Again, verify the work to do with <code>terraform plan -destory</code>.  And then turn off all the containers with the <code>terraform destroy</code> command.</li>
+  <!-- bonus points: Do the same thing with our abt container -->
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

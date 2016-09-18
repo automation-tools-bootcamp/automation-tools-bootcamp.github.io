@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp - Intro to a Jenkins Pipeline</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>Learning about development tools and automation</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3><a name="jenkins-pipeline" class="anchor" href="#jenkins-pipeline"><span class="octicon octicon-link"></span></a>Intro to a Jenkins Pipeline</h3>
+
+<p><img src="images/jenkins.png" /> <img src="images/alaskaoilpipeline.jpg" alt="from http://www.alaska-summer-jobs.com/oil_industry_jobs.htm" />
+<br />
+This section is not about what <a href="./jenkins.html">Jenkins is</a>.  We are going to dig in deeper and configure the build and release of an application!<br />
+<br />
+As mentioned in the Jenkins introduction, when working with Jenkins, it is all about <a href="./jenkins.html#what-else">the plugins</a>.<br />
+<br />
+Jenkins plugins are separated in to sections by the type of action they perform.  This information is pretty reliable, but it is also self selected by plugin authors and not a curated list.  Such is the life of open source projects, but going to the <a href="​https://wiki.jenkins-ci.org/display/JENKINS/Plugins" target="_new">official Jenkins Plugins page</a> and searching for any plugins related to tools you use is still a great starting point.</p>
+
+
+<h3><a name="configuration-magic" class="anchor" href="#configuration-magic"><span class="octicon octicon-link"></span></a>Configuration "Magic"</h3>
+<p>
+There is no magic.  There is just experience from playing with the tool.  Configuring Jenkins plugins can be a lot of trial and error.  But that is okay!  You are not going to hurt anything when making a mistake in your testing environments.  Unfortauntely not all of the plugins have the best documentation.  But you will eventually get to your desired end state/configuration.  Which means - just like your code, you want to take advantage of development environments.  You do not want to configure jobs the first time when editing production Jenkins environments.  Figure out the configuration for development processes and then move it out to production.<br />
+<br />
+Remember - <strong><em>Jenkins will only do what you tell it to do</em></strong>.
+</p>
+
+<h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
+
+<p>The standard starting point is to have Jenkins build, or compile, something.  So we've got a <!-- TODO: the sample app! -->sample web application we are going to start with. After it has been built, we will want to store the <a href="./artifactory.html" target="_new">build artifact</a> and notify users the build ran.<br />
+  <br />
+  Not a lot to talk about here - but lots to do.  So let's dive in!</p>
+<ol>
+  <li>Get in the <code>deployments</code> directory of the Automation Tools git repo and <code>vagrant up</code> our trusty VM.</li>
+  <li>Start up a Jenkins server using Docker container.  <code>​
+sudo docker run -p 8080:8080 -p 50000:50000 -v /home/vagrant/jenkins_home:/var/jenkins_home jenkins:1.625.2</code></li>
+  <li>Install the following list of plugins on your new <a href="http://localhost:8080" target="_new">Jenkins server</a>.</li>
+    <ul>
+      <li>SCM Sync Configuration Plugin</li>
+      <li><a href="https://wiki.jenkins-ci.org/display/JENKINS/NodeJS+Plugin" target="_new">NodeJS Plugin</a></li>
+      <li>GitHub Plugin</li>
+      <li>Copy Artifact Plugin</li>
+      <li>Slack Plugin</li>
+      <li>Gatling Plugin</li>
+    </ul>
+  <li>With the plugins installed, it is time to configure them.</li>
+    <ul>
+      <li>Configure SCM Sync to use a new public repo on GitHub. (For today this is good, in general don't use this with a public repo)</li>
+      <li>Configure the NodeJS plugin to install the latest version (or 5.x version) of NodeJS for our test project to use.</li>
+      <li>Make your own room in Automation Tools Slack</li>
+      <li>Configure the Slack plugin with your own Slack room's API key.</li>
+    </ul>
+  <li>Create a new Freestyle Jenkins job named <code>create-build-artifact</code> that checks out <a href="https://github.com/automation-tools-bootcamp/example-nodejs-app" target="_new">our example application</a> you forked and have write access to.</li>
+  <li>"Validate" we have a working application by running <code>npm install; npm test</code> in an Execute Shell.</li>
+  <li>Setup the Jenkins to check repo every two minutes <code>*/2 * * * *</code>, or "when a change is pushed to GitHub".</li>
+  <li>Add a Post Build step to post in your Slack channel the result of the build</li>
+  <li>Manually run this new job and ensure everything performed as expected!</li>
+  <li>Create another new Freestyle Jenkins job named <code>create-atb-container</code></li>
+  <li>Have it check out your forked copy of the <a href="https://github.com/tfitch/example-docker-app" target="_new">example Docker project</a>.</li>
+  <li>Then it will use the Copy Artifact Plugin copy in the tested Node.js application files from <code>create-build-artifact</code> to your new job's workspace in a folder you will call <code>node-app</code>.</li>
+  <li>Then run <code>docker build -t localhost:5002/atb</code> command generate a container of the example Node.js app.</li>
+  <li>Now we have a container to publish to Artifactory.  Have Jenkins do this with the <code>docker push localhost:5002/atb:0.0.1</code> command.</li>
+  <li>Go to your <a href="http://localhost:8081/artifactory/" target="_new">Artifactory Server</a> and browse to the <code>docker-dev-local2</code> repo and see your uploaded container!</li>
+  <li>BONUS item: Create a GitHub issue in your project and reference it in the following <code>git commit</code> message and see what integrations happen then.</li>
+  <li>Now change the version number in the Example Node app's <code>package.json</code> file from <code>0.0.1</code> to <code>0.0.2</code> in your GitHub repository.  <code>git commit</code> and <code>git push</code> them and watch the entire pipeline run again.</li>
+  <!-- lurking if I can build it in time for class.  Update a Docker container with the new NPM release -->
+</ol>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
