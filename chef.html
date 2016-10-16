@@ -31,7 +31,7 @@
           <h3><a name="introduction-to-chef" class="anchor" href="#introduction-to-chef"><span class="octicon octicon-link"></span></a>Introduction to Chef</h3>
 
 <img src="./images/chef-logo.png" align="right" />
-<p>Of all the bootcamp subjects to cover this one is the most frustrating to present properly in one hour.  We will be able to cover "Why Chef exists," and "What Chef is," but not as much about "How Chef does it".  That said, with the info here you will create a simple cookbook to configure a server.</p>
+<p>Of all the bootcamp subjects to cover this one is the most difficult to present properly in one short session.  We will be able to cover "Why Chef exists," and "What Chef is," but not as much about "How Chef does it".  That said, with the info here you will create a simple cookbook to configure a server.</p>
 
 <h3><a name="why-chef" class="anchor" href="#why-chef"><span class="octicon octicon-link"></span></a>What problems does Chef solve?</h3>
 
@@ -93,14 +93,14 @@ Need Java?  <a href="https://supermarket.chef.io/cookbooks/java" target="_new">U
 Need Tomcat? <a href="https://supermarket.chef.io/cookbooks/tomcat" target="_new">Use the community cookbook!</a><br />
 Need MongoDB? <a href="https://supermarket.chef.io/cookbooks/mongodb" target="_new">Use the community cookbook!</a><br />
 <br />
-For a generic install of MongoDB using the community cookbook it is two lines of code added to your cookbook.<br>
+For a generic install of MongoDB using the community cookbook it is two lines of code added to your cookbook.<br></p>
 <pre><code># in metadata.rb file
 depends 'mongodb'
 
 # in default.rb file
 include_recipe 'mongodb'
 </code></pre>
-DONE AND DONE.  MongoDB is installed.</p>
+<p>DONE AND DONE.  MongoDB is installed.</p>
 
 <h3><a name="have-to" class="anchor" href="#have-to"><span class="octicon octicon-link"></span></a>Do not reinvent the wheel (unless you have to)</h3>
 <p>The community cookbooks are robust and often, but not always, support a wide range of configuration options (like host name, app install directory).<br />
@@ -111,14 +111,13 @@ BUT - sometimes (read: often) the community cookbook just isn't right.  Go ahead
 <h3><a name="create-cookbook" class="anchor" href="#create-cookbook"><span class="octicon octicon-link"></span></a>Create our first cookbook</h3>
 <p><a href="http://docs.chef.io/devkit/getting_started.html#your-first-cookbook" target="_new">Generating your first cookbook</a> starts with the <code>chef generate cookbook &lt;your_cookbook_name&gt;</code> command.<br />
 <br />
-This will give you a directory structure with all files necessary stubbed out.  Let's just dig in to the <code>recipes/default.rb</code> file and use it to install Apache 2.
+This will give you a directory structure with all files necessary stubbed out.  Let's just dig in to the <code>recipes/default.rb</code> file and use it to install Apache 2.</p>
 <pre><code># in recipes/default.rb
 package 'apache2' do
   action :install
 end
 </code></pre>
-You've done it.  Apache 2 will be installed when Chef Client runs.  Congrats.
-</p>
+<p>You've done it.  Apache 2 will be installed when Chef Client runs.  Congrats.</p>
 
 <h3><a name="test-kitchen" class="anchor" href="#test-kitchen"><span class="octicon octicon-link"></span></a>Test Kitchen</h3>
 <img src="./images/test_kitchen.png" align="right" width="300" />
@@ -143,9 +142,9 @@ When that completes (barring any errors in your cookbook), test the changes with
 <h3><a name="podcasts" class="anchor" href="#podcasts"><span class="octicon octicon-link"></span></a>Podcasts to listen to</h3>
 <p>
   <a href="http://foodfightshow.org/" target="_new"><img src="./images/food-fight.jpeg" width="170" /> Food Fight Show</a>&nbsp;&nbsp;&nbsp;
-  <a href="http://theshipshow.com" target="_new"><img src="./images/tss-logo.jpg" width="170" /> The Ship Show</a><br />
+  <a href="http://preaccidentpodcast.podbean.com" target="_new"><img src="./images/preaccident-podcast.jpg" width="170" /> The Pre-Accident Investigations Podcast</a><br />
   <a href="http://www.arresteddevops.com" target="_new"><img src="./images/adoicon.png" width="170" /> Arrested DevOps</a>&nbsp;&nbsp;
-  <a href="http://www.opsallthethings.com/" target="_new"><img src="./images/ops-all-the-things.jpeg" width="170" /> Ops All The Things!</a><br />
+  <a href="https://cote.io/podcasts/sdt/" target="_new"><img src="./images/sdt.png" width="170" /> Software Defined Talk</a><br />
 </p>
 
 <h3><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h3>
