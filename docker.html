@@ -122,24 +122,30 @@ This is the tip of the iceberg for Docker.  Go forth and learn more!
 
 <p>We are going to complete the following actions:</p>
 <ol>
-  <li>The VM for our class has Docker installed, so please use the provided <code>Vagrantfile</code> in <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp/tree/master/docker" target="_new">code repo</a> to bring up the VM for our class with a <code>vagrant up; vagrant ssh</code></li>
-  <li>Optional: Create a <a href="https://hub.docker.com/account/signup/" target="_new">Docker Hub account</a> so you can push your finished container to the Docker Hub when we're done.</li>
-  <li>In the VM <code>cd /vagrant</code> which will put you in to the Automation Tools git repo's <code>docker</code> directory with the Dockerfile to be completed.</li>
+  <li>The VM for our class has Docker installed, but it was installed as <code>root</code> so make sure all your <code>docker</code> commands are run as <code>sudo docker</code>.</li>
+  <li>In the VM <code>cd /vagrant/docker</code> which will put you in to the Automation Tools git repo's <code>docker</code> directory with the Dockerfile to be completed.</li>
   <li>Make yourself the <code>MAINTAINER</code> of the Dockerfile.</li>
   <li>You'll want to <code>EXPOSE</code> port 8085 to view the sample app.</li>
-  <li><code>RUN</code> the create the directory to hold our application <code>mkdir -p /usr/src</code>.</li>
+  <li>Create a directory using <code>RUN</code> to hold our application <code>mkdir -p /usr/src</code>.</li>
   <li>Change the <code>WORKDIR</code> to <code>/usr/src/</code> which will make it the directory where we will check out our example app.</li>
   <li>Use <code>RUN</code> to <code>git clone</code> our example app from Github from <code>https://github.com/automation-tools-bootcamp/example-nodejs-app.git</code> in to the container.</li>
   <li><code>WORKDIR</code> again to the directory (<code>/usr/src/example-nodejs-app</code>) where you checked out the repo.</li>
   <li><code>RUN npm install</code> which is the node.js command to install all the app's dependencies.</li>
   <li>Final thing for the Dockerfile: Use <code>CMD</code> to start the app with <code>CMD [ "npm", "start" ]</code>.</li>
-  <li>Make a <code>docker build</code> of your new image.  Be sure to tag it <code>-t &lt;userid&gt;/automation-tools-nodejs</code> when you do.  <code>sudo docker build -t tfitch/automation-tools-nodesj ./</code></li>
-  <li>Now it's time to <code>docker run</code> that new image as a container.  <code>sudo docker run -it --rm -p=8085:8085 &lt;userid&gt;/automation-tools-nodejs</code>.</li>
+  <li>Make a <code>docker build</code> of your new image.  Be sure to tag it <code>-t atb</code> when you do.  <code>sudo docker build -t atb ./</code></li>
+  <li>Now it's time to <code>docker run</code> that new image as a container.  <code>sudo docker run -it --rm -p=8085:8085 atb</code>.</li>
   <li><a href="http://localhost:8085" target="_new">View the app in your browser</a>.</li>
-  <li>Since the container is not daemonized (which you'd do with the <code>-d</code> switch, instead of <code>-i -t</code> switches), use Ctrl-C to kill <code>npm start</code> and exit the container</li>
-  <li>Optional: Use <code>docker push &lt;userid&gt;/automation-tools-nodejs</code> to upload your image to the Docker Hub. You may need to run <code>docker login</code> first.</li>
-  <li>We are done with the VM, so we can <code>exit</code> out and <code>vagrant destroy</code> it.</li>
-  <li>Let's not lose our edits to the <code>Dockerfile</code>, so <code>git add Dockerfile</code>, <code>git commit -m "My edited Dockerfile."</code> and <code>git push</code> your change.</li>
+  <li>Since the container is not daemonized (which you'd do with the <code>-d</code> switch, instead of <code>-it</code> switches), use Ctrl-C to kill <code>npm start</code> and exit the container.</li>
+</ol>
+
+<h2><a name="bonus-workout" class="anchor" href="#bonus-workout"><span class="octicon octicon-link"></span></a>Bonus Workout</h2>
+
+<p>We are going to complete the following actions to push our container to the Docker Hub:</p>
+<ol>
+  <li>If you do not already have a Docker Hub account, create a <a href="https://hub.docker.com/account/signup/" target="_new">Docker Hub account</a> so you can push your finished container to the Docker Hub.</li>
+  <li>Tag our <code>atb</code> container with your Docker Hub userID. <code>sudo docker tag atb &lt;DockerHubID&gt;/atb</code></li>
+  <li>Make sure you are logged in Docker Hub by running <code>sudo docker login</code>.</li>
+  <li>Use <code>sudo docker push &lt;DockerHubID&gt;/atb</code> to upload your image to the Docker Hub.</li>
 </ol>
         </section>
 
