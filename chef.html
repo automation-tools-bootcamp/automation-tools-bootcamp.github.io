@@ -149,16 +149,30 @@ When that completes (barring any errors in your cookbook), test the changes with
 
 <h3><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h3>
 
-<p>We are going to complete the following actions</p>
+<p>We are going to install Apache using the Chef community cookbook</p>
 <ol>
-  <li>Review the <a href="https://github.com/tfitch/automation-tools-bootcamp/tree/master/chef/automation-tools" target="_new">example cookbook</a> which you checked out during the Git session.</li>
-  <li>Edit the <code>recipes/default.rb</code> file to install Apache 2 using the <code>apache2</code> <a href="https://docs.chef.io/resource_package.html" target="_new">package</a>.</li>
+  <li>From the top level of the Automation Tools git project <code>vagrant up</code> and <code>vagrant ssh</code> in to the VM.</li>
+  <li>Ensure the Chef DK is properly installed and configured by running <code>chef verify</code> from the command prompt.</li>
+  <li>Move in to the project's chef directory with a <code>cd /vagrant/chef</code> command.</li>
+  <li>Create a new cookbook with the <code>chef generate cookbook bootcamp</code> for our project.</li>
+  <li>As the resulting output says, we will want to <code>cd bootcamp</code> in to our new cookbook.</li>
+  <li>Edit the <code>metadata.rb</code> file to depend on the MySQL community cookbook from the Chef Supermarket <code>depends 'apache2'</code>.</li>
+  <li>Edit the <code>recipes/default.rb</code> file to install Apache by including the default apache2 recipe <code>include_recipe "apache2::default"</code></li>
+  <li>Also edit the <code>recipes/default.rb</code> file to create a user called <code>bootcamp</code> using the native <a href="https://docs.chef.io/resource_user.html#examples" target="_new">user resource</a>.<pre><code>user 'bootcamp' do
+  action :create
+end</code></pre></li></li>
+  <li>Make sure all the cookbook's dependencies, in this case the <code>apache2</code> cookbook is a dependency, have been downloaded by running the <code>berks install</code> command.</li>
+  <li>Run <code>kitchen list</code> to see what VMs Test Kitchen is going to create when testing your cookbook.</li>
+  <li>Avoid downloading another entire Ubuntu (and CentOS) VM by changing the <code>.kitchen.yml</code> file to have the contents of the <code>kitchen.yml.example</code> file already in the git project's chef directory.</li>
+  <li>Verify that you're going to be testing a single VM by running <code>kitchen list</code> again.</li>
   <li>Converge the node with Test Kitchen <code>kitchen converge</code>. Note the output of the <code>chef-client</code> run.</li>
-  <li>Browse to the VM in your browser: <a href="http://localhost:8080" target="_new">http://localhost:8080</a>.</li>
-  <li>Connect to the VM via SSH (<code><a href="http://kitchen.ci/docs/getting-started/getting-help" target="_new">kitchen login</a></code>) and then stop the Apache server from running <code>sudo service apache2 stop</code> and logout. Reload the webpage (boo, nothing there).</li>
-  <li>Run <code>kitchen converge</code> again. How is the output from <code>chef-client</code> different this time? Is the site back up on <a href="http://localhost:8080" target="_new">http://localhost:8080</a>? If not, how do you make your recipe `convergent`?</li>
-  <li>Feeling TDDish? Run <code>kitchen verify</code> to test your state, tweak the test/integration/serverspec/default/default_spec.rb file to validate your system state.</li>
-  <li>Feel free to move on to more Chef topics with <a href="./chef-in-practice">Chef in Practice</a></li>
+  <li>Connect to the VM via SSH (<code><a href="http://kitchen.ci/docs/getting-started/getting-help" target="_new">kitchen login</a></code>)</li>
+  <li>Verify your <code>bootcamp</code> user exists on the machine with an <code>id bootcamp</code> command.</li>
+  <li>Now we will check that Apache is running with <code>curl localhost</code>.</li>
+  <li>Next up, testing that our VM is in the proper state using the <code>kitchen verify</code> command.</li>
+  <li>One of the tests will fail, it makes sense because we are a webserver, edit the test in the <code>tests/recipes/default_test.rb</code> file so it will pass (<code>it { should be_listening }</code>) and run <code>kitchen verify</code> again.</li>
+  <li>When we're done with the VM you will <code>exit</code> and then the same as <a href="./vagrant.html" target="_new">Vagrant</a>, we will destroy it. <code>kitchen destroy</code> </li>
+  <li>Feel free to move on to more Chef topics with <a href="./chef-in-practice.html">Chef in Practice</a></li>
 </ol>
 
 
