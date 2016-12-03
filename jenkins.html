@@ -147,6 +147,7 @@ But you might be configuring your build jobs for days to get things tweaked just
   <ul>
     <li>Have the Execute Shell command start with a <code>cd /vagrant/docker</code> to use our local Dockerfile from the previous section (so we don't have to check out the code again).</li>
     <li>Run our <code>build</code> command again, but change the tag so we end up with <code>sudo docker build -t jenkins-atb ./</code> added to our local shell command.</li>
+  </ul>
   <li>Time to run our <code>Docker Build</code> Jenkins job and watch the output.</li>
   <li>Now, go back and rerun our first job that listed our images and look for the new <code>jenkins-atb</code> image in the list!</li>
   <li>Since Jenkins is running as an active process, you can <code>ctrl-C</code> to shutdown the server.</li>
