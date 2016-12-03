@@ -33,9 +33,9 @@
 
 <p><img src="./images/inspec.png" /><br />
   <br />
-<a href="https://www.chef.io/inspec/" target="_new">InSpec</a> is an Auditing and Testing Framework from <a href="https://chef.io" target="_new">Chef</a>.<br />
+<a href="https://www.inspec.io/" target="_new">InSpec</a> is an Auditing and Testing Framework from <a href="https://chef.io" target="_new">Chef</a>.<br />
 <br />
-You are probably familiar with Chef providing tools to <a href="./chef.html">configure your machines</a>.  InSpec is a new tool extending the scope where Chef can watch over your machines for their entire lifecycle.  The use of InSpec does not require a Chef Server or the Chef Client.  InSpec is focused on proving your systems are in an expected state.<br />
+You are probably familiar with Chef providing tools to <a href="./chef.html">configure your machines</a>.  InSpec is a new tool extending the scope where Chef can watch over your machines for their entire lifecycle.  The use of InSpec does not require a Chef Server or the Chef Client.  InSpec is focused on proving your systems are in an expected state through compliance as code.<br />
 <br />
 This can mean a user account exists on the machine, certain rules for password requirements are being met, services are running as expected and more.</p>
 
@@ -66,14 +66,15 @@ You don't want your machines to be in compliance just at the moment they are tur
 
 <p>We are going to complete the following actions</p>
 <ol>
-  <li>InSpec is installed on our trusty VM.  So if you have not already <code>vagrant up</code> from inside the <code>deployments</code> folder of this project's git repo.</li>
-  <li>We're going to execute the example <a href="https://github.com/hardening-io/tests-os-hardening/tree/2.0#standalone-usage" target="_new">OS Hardening profile</a> against our VM.</li>
-  <ul>
-    <li><code>git clone http://github.com/hardening-io/tests-os-hardening</code></li>
-    <li><code>git checkout 2.0</code> because the code we need is not yet on the master branch.  But <a href="./git.html">we know Git</a></li>
-    <li><code>inspec exec tests-os-hardening</code></li></ul>
-  <li>See the results, try and change something, and run InSpec again to see if it is resolved.</li>
-  <li>Now use that same profile against one of our Docker containers from the <a href="./terraform.html#workout">Terraform workout</a>.  An example of using InSpec with the <code>docker://</code> transport is in the <a href="https://github.com/chef/inspec#detect" target="_new">InSpec README</a>.</li>
+  <li>InSpec is installed on our trusty VM.  It acutally comes bundled in the Chef DK, which is how it was installed on our class VM.</li>
+  <li>We're going to execute the example <a href="https://github.com/dev-sec/tests-os-hardening#standalone-usage" target="_new">OS Hardening profile</a> against our class VM.</li>
+  <li>We already have InSpec OS hardening profile in the <code>inspec</code> directory, so let's go there on the VM <code>cd /vagrant/inspec</code>.</li>
+  <li><code>inspec exec tests-os-hardening</code></li>
+  <li>The results will tell us how well I did making a hardened OS for the class VM.  ***Spoiler Alert*** I didn't make any efforts to do this.</li>
+  <li>But, we can use same profile against one of our Docker containers from the <a href="./artifactory.html#workout">Artifactory workout</a>.  An example of using InSpec with the <code>docker://</code> transport is in the <a href="https://github.com/chef/inspec#detect" target="_new">InSpec README</a>.</li>
+  <li>First, let's make sure we can connect to the container. We know the name of our container is <code>artifactory</code> and since we are using Docker we'll <code>sudo</code> to make the command <code>sudo inspec detect -t docker://artifactory</code> and what do we learn about it?</li>
+  <li>Now we can do our scan with a <code>sudo inspec exec tests-os-hardening -t docker://artifactory</code>.</li>
+  <li>The results say? Who released the more hardened OS image?</li>
 </ol>
         </section>
 
