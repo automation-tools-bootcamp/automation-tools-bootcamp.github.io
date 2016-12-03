@@ -138,13 +138,18 @@ But you might be configuring your build jobs for days to get things tweaked just
 
 <p>We are going to complete the following actions:</p>
 <ol>
-  <li>Download the the <code>jenkins.war</code> on your machine or it is already on the project's Vagrant VM.</li>
-  <li>Do a simple startup of Jenkins.</li>
-  <li>Create a job that runs a local shell command, verify output.</li>
-  <li>Checkout <a href="https://github.com/tfitch/automation-tools-bootcamp" target="_new">this project from github.com</a> (or your fork of the project).</li>
-  <li>Do a <code>docker build</code> of one of the Dockerfiles in the repo.</li>
-  <li>Now, configure the job to run automatically whenever code is checked in to the repo.</li>
-  <li>Have Jenkins automatically deploy the Docker image to <code>hub.docker.com</code>.</li>
+  <li>The <code>jenkins.war</code> is already on the project's Vagrant VM in the user's home directory.</li>
+  <li>Get in to the home directory of the VM to find Jenkins. <code>cd ~/jenkins</code></li>
+  <li>Let's do the most basic startup for Jenkins with a <code>java -jar jenkins.war</code> and leave the console open. We will need the output.</li>
+  <li>Open <a href="http://localhost:8080" target="_new">Jenkins in your browser</a> and complete the installation prompts accepting the defaults.</li>
+  <li>Create a new item (from the left menu) that is a Freestyle job named <code>Docker Images</code> has a Build Step of a Execute Shell command of <code>sudo docker images</code>.  and verify output.</li>
+  <li>Create a second item that is Freestyle job named <code>Docker Build</code> that will build your Docker image from before.</li>
+  <ul>
+    <li>Have the Execute Shell command start with a <code>cd /vagrant/docker</code> to use our local Dockerfile from the previous section (so we don't have to check out the code again).</li>
+    <li>Run our <code>build</code> command again, but change the tag so we end up with <code>sudo docker build -t jenkins-atb ./</code> added to our local shell command.</li>
+  <li>Time to run our <code>Docker Build</code> Jenkins job and watch the output.</li>
+  <li>Now, go back and rerun our first job that listed our images and look for the new <code>jenkins-atb</code> image in the list!</li>
+  <li>Since Jenkins is running as an active process, you can <code>ctrl-C</code> to shutdown the server.</li>
 </ol>
         </section>
 
