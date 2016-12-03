@@ -93,18 +93,21 @@ Here are some articles from people who have put Terraform through the paces more
 
 <p>We are going to complete the following actions</p>
 <ol>
-  <li>Terraform is already installed on our VM.  So <code>vagrant up</code> in the <code>deployments</code> folder of this project's Git repo.</li>
-  <li>Go in to the <code>/vagrant/terraform</code> directory on the VM.</li>
-  <li>Run a <code>terraform</code> command to verify the execute is ready.</li>
+  <li>Terraform is already installed on our VM. So we are all ready to dive in.</li>
+  <li>Go in to the <code>/vagrant/terraform/tutum</code> directory on the VM.</li>
+  <li>Run the command <code>terraform</code> to verify Terraform is ready to use.</li>
   <li>Review the <code>tutum-hello-world.tf</code> file that already exists.</li>
   <li>What Provider is it using?  What resources are being created?</li>
-  <li>Check what will happen if Terraform ran this file with the <code>terraform plan</code> command.</li>
-  <li>Now that we know what Terraform will do.  Have Terraform do it by running the <code>terraform apply</code> command.</li>
-  <li>Running Docker containers is often about quantity.  So let's now run five of the <code>hello-world</code> container.  Change the <code>tutum-hello-world.tf</code> file to spin up five instances of our container.</li>
-  <li>Verify this by running <code>terraform plan</code> again.</li>
-  <li>We can make the change happen with <code>terraform apply</code> and verify it is running with the <code>terraform show</code> command.</li>
-  <li>We are done here.  Time to destroy everything.  Again, verify the work to do with <code>terraform plan -destory</code>.  And then turn off all the containers with the <code>terraform destroy</code> command.</li>
-  <!-- bonus points: Do the same thing with our abt container -->
+  <li>Check what will happen if Terraform ran this file with the <code>sudo terraform plan</code> command.  We need to <code>sudo</code> these commands because it will then <code>sudo docker</code> all the Docker commands.</li>
+  <li>Now that we know what Terraform will do.  Have Terraform do it by running the <code>sudo terraform apply</code> command.</li>
+  <li>The container will be up and serving out a Hello World page now on <a href="http://localhost:8088" target="_new">localhost:8088</a>.</li>
+  <li>Running Docker containers is often about quantity.  So let's now run five of the <code>hello-world</code> container instead of three.  Change the <code>tutum-hello-world.tf</code> file to spin up five instances of our container.</li>
+  <li>Verify what is going to change by running <code>sudo terraform plan</code> again.</li>
+  <li>We can make the change happen with <code>sudo terraform apply</code> and verify it is running with the <code>sudo terraform show</code> command.</li>
+  <li>We are done with this generic container.  Time to destroy everything.  Again, verify the work to do with <code>sudo terraform plan -destory</code>.  And then turn off all the containers with the <code>sudo terraform destroy</code> command.</li>
+  <li>Now we can have Terraform deploy our <code>atb</code> Docker container from our running <a href="artifactory.html#workout">Artifactory</a> server.</li>
+  <li>Let's get in to the <code>bootcamp</code> directory with a <code>cd ../bootcamp</code> and repeat the <code>sudo terraform plan</code> and <code>sudo terraform apply</code> commands.</li>
+  <li>This set of containers will be viewable on <a href="http://localhost:8086" target="_new">localhost:8086</a>.</li>
 </ol>
         </section>
 
