@@ -86,11 +86,13 @@ The top list multiplied by the bottom list = a lot of possible combinations.  Po
 
 <p>We are going to complete the following actions</p>
 <ol>
-  <li><a href="https://www.packer.io/intro/getting-started/setup.html" target="_new">Install Packer</a> on *your* machine.</li>
-  <li>Go in to the packer directory of the Bootcamp project's git repo and make sure you've copied the provided <code>ubuntu-14.04.5-server-amd64.iso</code> in to it.</li>
+  <li>Unfortunately, Packer (more specifically Virtualbox when used by Packer) isn't playing well in the class VM, so we will want to <a href="https://www.packer.io/intro/getting-started/setup.html" target="_new">install Packer</a> on YOUR machine.</li>
+  <li>If you're having trouble downloading the install, their are copies of the Packer installer for Windows and MacOS available on the class USB stick.</li>
+  <li>Make sure you've copied the provided <code>ubuntu-14.04.5-server-amd64.iso</code> in to the <code>boxes</code> directory of the Bootcamp git repo.</li>
   <li>Ensure the JSON file for the packer project is valid and ready to go <code>packer validate example-ubuntu-14.04-amd64.json</code>.</li>
   <li>If you see any errors reported, correct them.</li>
-  <li>Build your own Vagrant box from the Ubuntu ISO <code>packer build example-ubuntu-14.04-amd64.json</code> (ask the person next to tell you their life story and check back for progress...).</li>
+  <li>Build your own Virtualbox box from the Ubuntu ISO <code>packer build example-ubuntu-14.04-amd64.json</code> (ask the person next to tell you their life story and check back for progress...).</li>
+  <li>Congratulations, the provided <code>scripts</code> have now built you your own Vagrant box.</li>
   <li>When completed, you can <code>vagrant up</code> and <code>vagrant ssh</code> in to your newly built and up to date Ubuntu test server.</li>
 </ol>
         </section>
