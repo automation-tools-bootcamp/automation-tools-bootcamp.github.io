@@ -43,7 +43,7 @@ Those sound similar but come down to using the same artifacts in two different w
 
 <h3><a name="repository-mirroring" class="anchor" href="#repository-mirroring"><span class="octicon octicon-link"></span></a>Repository mirroring</h3>
 <p>
-  A common use case for Artifactory is to be a proxy in locked down enterprises.  Get Artifactory up and running and then configure <a href="https://maven.apache.org/" target="_new">Maven</a> (a Java build and dependency management tool) or <a href="https://rubygems.org/" target="_new">Ruby Gems</a> to be requested from the Artifactory server.  The security team will whitelist the single Artifactory server to have outside access and developers' machines can remain safely locked down.  If Artifactory doesn't have the request resource, it will download it and store it for future usage.<br />
+  A common use case for Artifactory is to be a proxy in locked down enterprises.  Get Artifactory up and running and then configure <a href="https://maven.apache.org/" target="_new">Maven</a> (a Java build and dependency management tool) or <a href="https://rubygems.org/" target="_new">Ruby Gems</a> to be requested from the Artifactory server.  The security team will whitelist the single Artifactory server to have outside access and developers' machines can remain safely locked down.  If Artifactory doesn't have the requested resource, it will download it and store it for future usage.<br />
   <br />
   Having Artifactory run as your proxy does provide some ease of use as a proxy, but the biggest gains are seen on subsequent requests.  You are not going to "<a href="http://blog.sonatype.com/2011/04/how-not-to-download-the-internet/" target="_new">download the Internet</a>" from the actual Internet.  Instead, after the first request for a library, you will be downloading the library from your local Artifactory instance!  Depending on the size and scope of your application this can save seconds or even save minutes from each build cycle.<br />
   <br />
@@ -71,7 +71,7 @@ Those sound similar but come down to using the same artifacts in two different w
 <p>
   Be aware that Artifactory has <a href="https://www.jfrog.com/artifactory/versions/" target="_new">mulitple versions</a>, mostly breaking down between the free OSS version, the paid Pro versions or a Cloud based version.  This demo is using an evaluation copy of Artifactory Pro which has support for numerous types of repositories, including what we will be using today.<br />
   <br />
-  Most every tool in the Automation Tools Bootcamp is free or easily successful with the free version.  But with Artifactory I want to steer you one of the paid versions.  The biggest gain is the support for the extra types of repositories.  And rationalizing the payment for Artifactory comes back pretty quickly using the mirroring options.  If build times go from 5 minutes to 2 minutes by removing external downloads, in each build you are saving 3 minutes of your developers' time.  The break-even point is easily obtainable there and makes purchasing a Pro version of Artifactory an easy recommendation.
+  Most every tool in the Automation Tools Bootcamp is free or easily successful with the free version.  But with Artifactory I want to steer you to one of the paid versions.  The biggest gain is the support for the extra types of repositories.  And rationalizing the payment for Artifactory comes back pretty quickly using the mirroring options.  If build times go from 5 minutes to 2 minutes by removing external downloads, in each build you are saving 3 minutes of your developers' time.  The break-even point is easily obtainable there and makes purchasing a Pro version of Artifactory an easy recommendation.
 
 <h3><a name="artifactory-alternatives" class="anchor" href="#artifactory-alternatives"><span class="octicon octicon-link"></span></a>Alternatives to Artifactory</h3>
 
@@ -89,17 +89,21 @@ Artifactory is not the only player in the repository management game.  It is nic
 
 <p>We are going to complete the following actions with Artifactory</p>
 <ol>
-  <li>Get in the <code>deployments</code> directory of the Automation Tools git repo and <code>vagrant up</code> our trusty VM</li>
+  <li>Artifactory is already baked in to the class VM as a Docker container.</li>
   <li>Start up an Artifactory server using a Docker container. <code>sudo docker run --name artifactory -p 80:80 -p 8081:8081 -p 443:443 -p 5000-5002:5000-5002 jfrog-docker-reg2.bintray.io/jfrog/artifactory-registry:latest</code></li>
-  <li>Open the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web server</a> you just started up in a browser tab.</li>
-  <li>Artifactory will prompt you for a license key, it is available as a "pinned" message in the <code>#general</code> room on Automation Tools Slack.</li>
+  <li>Open the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web server</a>. It will automatically give you a new browser tab.</li>
+  <li>Artifactory will prompt you for a license key in a yellow message at the top of the page. The key is available as a "pinned" message in the <code>#general</code> room on Automation Tools Slack.</li>
   <li>Change the <a href="https://www.jfrog.com/confluence/display/RTF/Managing+Users" target="_new">default login credentials</a> from <code>admin/password</code> to have a different password.</li>
-  <li>Add a custom image header in the General Configuration to differentiate your server from others.</li>
-  <li>Give the <code>anonymous</code> user "Delete/Overwrite" access in the Security section of the Artifactory admin.<br />
-  <em>You would *never* do this in real life.  But this is a class and this makes the rest of the day simpler.</em></li>
-  <li>This container for Artifactory already as a Docker registry enabled!  We'll use that later.</li>
-  <li>Now we will make our own "Generic" repository called <code>atb</code>.</li>
-  <li>Then Deploy a file to the generic <code>atb</code> repo using the web interface.  Any file, try a zip file.  Then download the file from Artifactory.  Notice the download count - helpful to guage your artifact's popularity or usage.</li>
+  <li>Add a custom image header in the General Configuration to differentiate your Artifactory server from others by giving it a little piece of flair.</li>
+  <li>Now we will make our own "Generic" repository called <code>bootcamp</code>.</li>
+  <li>Then Deploy a file to the generic <code>bootcamp</code> repo using the web interface.  Any file, try a zip file.  Then download the file from Artifactory.  Notice the download count - helpful to gauge your artifact's popularity or usage.</li>
+  <li>This container for Artifactory already has a Docker registry enabled!  Let's use that now.</li>
+  <li>Because Artifactory now has the focus of our terminal session, start another and <code>vagrant ssh</code> in to the class VM a second time. Or, if you are using <a href="tmux.html" target="_new">tmux</a>, split your session window in half and <code>vagrant ssh</code> from there.</li>
+  <li>Go in to the <code>docker</code> directory with a <code>cd /vagrant/docker</code>.</li>
+  <li>Now we're going to <code>docker login</code> to the Artifactory instance with a <code>sudo docker login localhost:5002</code> and use the <code>admin</code> user and your password to connect.</li>
+  <li>Now tag the <code>atb</code> container image for the Artifactory server with <code>sudo docker tag atb localhost:5002/atb</code></li>
+  <li>The prep work is done, let's push the container image up. <code>sudo docker push localhost:5002/atb</code></li>
+  <li>Watch each layer of the container upload, and then view it in the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web interface under the <code>docker-dev-local2</code> repository.</li>
 </ol>
         </section>
 
