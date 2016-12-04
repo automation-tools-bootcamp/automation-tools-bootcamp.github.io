@@ -33,12 +33,33 @@
 
 <p>More information is available on <a href="http://github.com/tfitch/automation-tools-bootcamp" target="_new">README Page</a>.  This page is the index for the topics we will cover in Boston. </p>
 
-<!--
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
--->
+<h3><a name="install-packer" class="anchor" href="#install-packer"><span class="octicon octicon-link"></span></a>Install Packer</h3>
+
+<p>Beyond installing Vagrant and Virtualbox, the application <a href="https://www.packer.io/downloads.html" target="_new">Packer</a> needs to be installed on your machine.</p>
+
+<h3><a name="the-source" class="anchor" href="#the-source"><span class="octicon octicon-link"></span></a>The Source</h3>
+
+<p>All the source control files for the class are located <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp" target="_new">on GitHub</a>.<br />
+For best results, Fork the GitHub to your own account so you can easily push changes you want to keep.</p>
+
+<h3><a name="the-boxes" class="anchor" href="#the-boxes"><span class="octicon octicon-link"></span></a>The Boxes</h3>
+
+<p>After checking out the source code, you now need to get you the three large files, a couple Vagrant boxes and an Ubuntu installer ISO.<br />
+<strong>The three files need to be placed in the <code>boxes</code> directory of the repo you just checked out for the class.</strong>
+<ol>
+  <li><code>atb-lisa-2016-1.0.3_vbox.box</code></li>
+  <li><code>trusty-server-32.box</code></li>
+  <li><code>ubuntu-14.04.5-server-amd64.iso</code></li>
+</ol>
+There are two easy ways to get the files:
+<ol>
+  <li>There are orange USB sticks you may borrow that have the files on them.</li>
+  <li>You can download them locally.  I am running a Wi-Fi access point called "AutomationTools".</li>
+  <li>After connecting to AP, connect to the File share.  On MacOS it is <code>smb://tplinklogin.net</code> to connect.</li>
+  <li>On Windows it is <code>\\tplinklogin.net</code> instead.</li>
+  <li>The login is atb/atb when prompted.</li>
+</ol>
+</p>
 
 <h3><a name="project-setup" class="anchor" href="#project-setup"><span class="octicon octicon-link"></span></a>Getting your machine ready for Bootcamp</h3>
 The core of the projects we will work on are located on Vagrant boxes.  So you will need to <a href="./vagrant.html#vagrant-setup">Install Vagrant</a>.  The VMs you will use are defined in a <code>Vagrantfile</code> in most project's workouts.  If you are attending a live session of the Bootcamp your instructor will have copies of the VM available on USB drives.<br />
