@@ -38,7 +38,7 @@
 Chef is an <em>Infrastructure Automation Framework</em>, so that it's more than a tool, a language or a single product. The issues Chef addresses include:
 <ul>
   <li>How to specify what a system does as a description of state, instead of an aggregation of Bash/Perl/Python scripts.
-  <li>How to maintain many systems over time in a consistent, repeatable manner (where 'many' is anywhere between 1 and 250,000)
+  <li>How to maintain many systems over time in a consistent, repeatable manner (where 'many' is anywhere between 1 and 250,000 or infinity) </li>
   <li>How to assure that machines in identical <em>roles</em> behave the same in different environments, e.g. between dev, staging and production.
   <li>How to verify and test your changes before touching anything in your live infrastructure.
 </ul>
@@ -51,11 +51,12 @@ Starting analogy: "Chef is to systems as yum/apt are to package management"
 
 <ul>
   <li>Chef will install and configure software for your server (or VM of a server) - or even your laptop if you wanted.</li>
-  <li>Chef is a Ruby DSL (domain-specific languate). Knowing Ruby is helpful but not required.</li>
+  <li>Chef is a Ruby DSL (domain-specific language). Knowing Ruby is helpful but not required.</li>
   <li>Almost everything from <a href="https://github.com/chef" target="_new">Chef is open source</a>.  Including the <a href="https://github.com/chef-cookbooks" target="_new">community <it>cookbooks</it> Chef maintains</a>.</li>
   <li>You write <it>recipes</it> which are stored in cookbooks.  A <it>knife</it> does most of the work.  (LOTS of cooking-related names.)</li>
   <li>It is assumed you are using version-control with Chef, generally Git.  Git is not required, but some tools in the Chef ecosystem will actually try and execute Git commands.</li>
-  <li>Chef and its ecosystem of tools are advancing at a pace I've rarely seen in a tool.  It is *hard* to keep to up date (and it's my part of my job).</li>
+  <li>Chef and its ecosystem of tools are advancing at a pace I've rarely seen in a tool.  It is *hard* to keep to up date.</li>
+  <li>And you do not necessarily need to keep up to date if you have a functional environment or workflow. &nbsp;But in general, try to.</li>
   <li>Wanna learn how to do something in a Chef cookbook?  Cookbooks in the <a href="https://supermarket.chef.io" target="_new">Chef Supermarket</a> have examples of just about everything. Don't reinvent the wheel.</li>
 </ul>
 
@@ -65,12 +66,12 @@ Starting analogy: "Chef is to systems as yum/apt are to package management"
 
 <ul>
   <li>Dependency management - <a href="http://berkshelf.com/" target="_new">Berkshelf</a></li>
-  <li>Code linting - <a href="http://www.foodcritic.io/" target="_new">Foodcritic</a> and <a href="https://github.com/bbatsov/rubocop" target="_new">Rubocop</a></li>
-  <li>Unit Testing - <a href="http://code.sethvargo.com/chefspec/" target="_new">ChefSpec</a></li>
-  <li>Integration Testing - <a href="http://kitchen.ci/" target="_new">Test Kitchen</a></li>
-  <li>All these tools are so useful, Chef bundled them together into <a href="http://docs.chef.io/devkit/" target="_new">the Chef DK.</a></li>
+  <li>Code linting - <a href="http://www.foodcritic.io/" target="_new">Foodcritic</a> and <a href="https://github.com/chef/cookstyle" target="_new">Cookstyle</a> (born from Rubocop)</li>
+  <li>Unit Testing - <a href="http://sethvargo.github.io/chefspec/" target="_new">ChefSpec</a></li>
+  <li>Integration Testing - by combining <a href="https://www.inspec.io" target="_new">InSpec</a> with <a href="http://kitchen.ci/" target="_new">Test Kitchen</a></li>
+  <li>All these tools are so useful, Chef bundled them together into <a href="https://docs.chef.io/about_chefdk.html" target="_new">the Chef DK.</a></li>
   <li>Automation of linting, unit testing and interation testing after a code check in can be done in Countinuous Integration tools like <a href="./jenkins.html">Jenkins</a>, just like building other software projects</li>
-  <li>Successful completion of the above steps within your CI server would indicate a working cookbook change and your CI server can then publish the change to the Chef server for managed machines to pull down the update and apply it.</li>
+  <li>Successful completion of the above steps within your CI server would indicate a working cookbook/role/environment/data bag change and your CI server can then publish the change to the Chef server for managed machines to pull down the update and apply it.</li>
 </ul>
 
 <h3><a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h3>
@@ -133,10 +134,8 @@ When that completes (barring any errors in your cookbook), test the changes with
 <h3><a name="to-follow" class="anchor" href="#to-follow"><span class="octicon octicon-link"></span></a>Chefs to follow on Twitter</h3>
 <ul>
   <li><a href="https://twitter.com/adamhjk" target="_new">Adam Jacob</a></li>
-  <li><a href="https://twitter.com/sigje" target="_new">Jennifer Davis</a></li>
+  <li><a href="https://twitter.com/mfdii" target="_new">Michael Ducy</a></li>
   <li><a href="https://twitter.com/fnichol" target="_new">Fletcher Nichol</a></li>
-  <li><a href="https://twitter.com/tfitch" target="_new">Tyler Fitch</a></li>
-  <li><a href="https://twitter.com/pburkholder" target="_new">Peter Burkholder</a></li>
   <li><a href="https://twitter.com/chef" target="_new">Chef</a></li>
 </ul>
 <h3><a name="podcasts" class="anchor" href="#podcasts"><span class="octicon octicon-link"></span></a>Podcasts to listen to</h3>
@@ -151,16 +150,16 @@ When that completes (barring any errors in your cookbook), test the changes with
 
 <p>We are going to install Apache using the Chef community cookbook</p>
 <ol>
-  <li>From the top level of the Automation Tools git project <code>vagrant up</code> and <code>vagrant ssh</code> in to the VM.</li>
+  <li>From the top level of the Automation Tools git project <code>vagrant up</code> and <code>vagrant ssh</code> in to the big class VM that has everything installed.</li>
   <li>Ensure the Chef DK is properly installed and configured by running <code>chef verify</code> from the command prompt.</li>
   <li>Move in to the project's chef directory with a <code>cd /vagrant/chef</code> command.</li>
   <li>Create a new cookbook with the <code>chef generate cookbook bootcamp</code> for our project.</li>
   <li>As the resulting output says, we will want to <code>cd bootcamp</code> in to our new cookbook.</li>
-  <li>Edit the <code>metadata.rb</code> file to depend on the MySQL community cookbook from the Chef Supermarket <code>depends 'apache2'</code>.</li>
+  <li>Edit the <code>metadata.rb</code> file to depend on the Apache2 community cookbook from the Chef Supermarket <code>depends 'apache2'</code>.</li>
   <li>Edit the <code>recipes/default.rb</code> file to install Apache by including the default apache2 recipe <code>include_recipe "apache2::default"</code></li>
   <li>Also edit the <code>recipes/default.rb</code> file to create a user called <code>bootcamp</code> using the native <a href="https://docs.chef.io/resource_user.html#examples" target="_new">user resource</a>.<pre><code>user 'bootcamp' do
   action :create
-end</code></pre></li></li>
+end</code></pre></li>
   <li>Make sure all the cookbook's dependencies, in this case the <code>apache2</code> cookbook is a dependency, have been downloaded by running the <code>berks install</code> command.</li>
   <li>Run <code>kitchen list</code> to see what VMs Test Kitchen is going to create when testing your cookbook.</li>
   <li>Avoid downloading another entire Ubuntu (and CentOS) VM by changing the <code>.kitchen.yml</code> file to have the contents of the <code>kitchen.yml.example</code> file already in the git project's chef directory.</li>
