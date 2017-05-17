@@ -21,7 +21,7 @@
       <div class="inner">
         <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
         <h2>Learning about development tools and automation</h2>
-        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
@@ -44,7 +44,7 @@
 <h3><a name="vagrant-benefits" class="anchor" href="#vagrant-benefits"><span class="octicon octicon-link"></span></a>Benefits of Vagrant</h3>
 <ul>
   <li>Your local testing environment will more closely match your shared environments</li>
-  <li>No more "works for me" (because I'm running a different version of Java, etc)</li>
+  <li>No more "works for me" (because I'm running a different version of Java, PHP, etc)</li>
   <li>Quick tear down and setup (aka - provisioning). You can break it, destroy it and start over until you tweak it just right.</li>
   <li>With enough system resources you can replicate <a href="https://docs.vagrantup.com/v2/multi-machine/index.html" target="_new">an entire distributed app</a> (DB + app server + web server + load balancer)</a>
   <li>Tip: What's going on with my Vagrant box right now?<pre><code>vagrant status</code></pre></li>
@@ -79,29 +79,34 @@ vagrant destroy   # wipes the server away to nothing
 </ul>
 
 <h3><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h3>
-
-<p>Review the <a href="https://github.com/tfitch/automation-tools-bootcamp/tree/master/vagrant/Vagrantfile" target="_new">example Vagrantfile</a> which you checked out during the Git sessions.<br />
-We are going to complete the following three actions:</p>
+<p>Review the <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp/tree/master/vagrant/Vagrantfile" target="_new">example Vagrantfile</a> which you checked out during the Git session.<br>
+  We are going to complete the following three actions:</p>
 <h4>One - wreck the box and recover</h4>
 <ol>
-  <li>Start up the single Vagrant box.</li>
-  <li>Connect via SSH.</li>
-  <li>Then delete the entire <code>/etc</code> folder.</li>
-  <li>Halt the server and bring it back up.</li>
-  <li>Now bring up the server the way it was before you destroyed <code>/etc</code>.</li>
+  <li>Start up the single Vagrant box with a <code>vagrant up</code> from the <code>vagrant</code> directory in the ATB Git repo.</li>
+  <li>Once the box is up log in with a <code>vagrant ssh</code>.</li>
+  <li>Then delete the entire <code>/etc</code> folder of the VM.</li>
+  <li><code>exit</code> the VM and get back to your machine's command prompt.</li>
+  <li><code>vagrant halt</code> the server and bring it back <code>vagrant up</code> again.  I'll wait.</li>
+  <li>Now bring up the server the way it was before you destroyed <code>/etc</code>. We do this with a <code>vagrant destroy</code> and another <code>vagrant up</code></li>
+  <li>We can again <code>vagrant ssh</code> in to the VM and see that <code>/etc</code> and back and we didn't really screw too much up.</li>
 </ol>
 <h4>Two - run one box as a webserver</h4>
 <ol>
-  <li>Start up the single Vagrant box.</li>
+  <li><code>vagrant up</code> the single Vagrant box. (Which might already be running from the final step above)</li>
   <li>View the VMs default webpage <a href="http://localhost:8080" target="_new">http://localhost:8080</a>.</li>
   <li>Connect via SSH and then stop the Apache server from running <code>sudo service apache2 stop</code>.</li>
-  <li>Finally, reload the webpage.</li>
+  <li>Reload the web page. Which should no longer load.</li>
+  <li>Finish up with an <code>exit</code> and the VM and <code>vagrant destroy</code> of the VM.</li>
 </ol>
 <h4>Three - run three boxes as a small cluster of machines</h4>
 <ol>
-  <li>Start up the Vagrant cluster in the <a href="https://github.com/tfitch/automation-tools-bootcamp/tree/master/vagrant/multi-box" target="_new">multi-box</a> directory.</li>
+  <li>From your machine <code>cd multi-box</code> so we can work with a different <code>Vagrantfile</code></li>
+  <li>Review this directory's <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp/tree/master/vagrant/Vagrantfile" target="_new">Vagrantfile</a> and note the differences (three machines with their own IP addresses).</li>
+  <li>Start up the whole cluster of Vagrant VMs in the same manner as if it were just one machine by running <code>vagrant up</code>.</li>
   <li>Login to the box web1 (<code>vagrant ssh web1</code>) and ping the box web3 on IP address <code>192.168.50.30</code></li>
   <li>View the default Apache page on <a href="http://localhost:8081" target="_new">web1</a>, <a href="http://localhost:8082" target="_new">web2</a> and <a href="http://localhost:8083" target="_new">web3</a>.</li>
+  <li>Finish up with an <code>exit</code> if necessary and then a <code>vagrant destroy</code> to bring down all three machines.</li>
 </ol>
         </section>
 
