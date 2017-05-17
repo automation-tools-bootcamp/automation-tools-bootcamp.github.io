@@ -50,7 +50,7 @@ You need three things to be get running with Packer:
 <ol>
   <li><a href="https://www.packer.io/intro/getting-started/setup.html" target="_new">Install Packer</a>.</li>
   <li><a href="https://www.packer.io/intro/getting-started/build-image.html" target="_new">Create a json file defining the image you'll be creating</a>.</li>
-  <li>Patience - you're working with some big ol' files here.</li>
+  <li>Patience - you're often working with some big ol' files here.</li>
 </ol>
 <iframe width="420" height="315" src="https://www.youtube.com/embed/ErvgV4P6Fzc" frameborder="0" allowfullscreen></iframe><br />
 </p>
@@ -74,7 +74,7 @@ The top list multiplied by the bottom list = a lot of possible combinations.  Po
   <li>Amazon EC2 (AMI)</li>
   <li>DigitalOcean</li>
   <li>Docker</li>
-  <li>Google Compute Enginer</li>
+  <li>Google Compute Engine</li>
   <li>OpenStack</li>
   <li>VirtualBox</li>
   <li>VMWare</li>
@@ -90,7 +90,7 @@ The top list multiplied by the bottom list = a lot of possible combinations.  Po
   <li>If you're having trouble downloading the install, their are copies of the Packer installer for Windows and MacOS available on the class USB stick.</li>
   <li>Make sure you've copied the provided <code>ubuntu-14.04.5-server-amd64.iso</code> in to the <code>boxes</code> directory of the Bootcamp git repo.</li>
   <li>Ensure the JSON file for the packer project is valid and ready to go <code>packer validate example-ubuntu-14.04-amd64.json</code>.</li>
-  <li>If you see any errors reported, correct them.</li>
+  <li>If you see any errors reported, correct them (by just removing the offending lines of code).</li>
   <li>Build your own Virtualbox box from the Ubuntu ISO <code>packer build example-ubuntu-14.04-amd64.json</code> (ask the person next to tell you their life story and check back for progress...).</li>
   <li>Congratulations, the provided <code>scripts</code> have now built you your own Vagrant box.</li>
   <li>When completed, you can <code>vagrant up</code> and <code>vagrant ssh</code> in to your newly built and up to date Ubuntu test server.</li>
