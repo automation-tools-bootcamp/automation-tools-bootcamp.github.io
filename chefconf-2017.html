@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Developer Automation Tools Bootcamp by tfitch</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="./index.html"><h1>Developer Automation Tools Bootcamp</h1></a>
+        <h2>A series of discussions about the development tools that enable automation of software projects.</h2>
+        <a href="https://github.com/tfitch/automation-tools-bootcamp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3> <a name="welcome-to-lisa-2016" class="anchor" href="#welcome-to-lisa-2016"><span class="octicon octicon-link"></span></a>Welcome to ChefConf 2017</h3>
+          <p><img src="./images/pool-chefconf2017.jpg" /></p>
+          <p>This page is the index for the topics we will cover in Austin. </p>
+          <p>The TL;DR is install Git, Virtualbox, Vagrant and Packer. &nbsp;It helps to have a GitHub account and install the ChefDK too. &nbsp;There's a Slack channel you can join the right nav.</p>
+          <h3><a name="install-packer" class="anchor" href="#install-packer"><span class="octicon octicon-link"></span></a>Install Packer</h3>
+          <p>Beyond installing Vagrant and Virtualbox, the application <a href="https://www.packer.io/downloads.html" target="_new">Packer</a> needs to be installed on your machine. I tried using it inside the class VM and it did not go well, so we'll need to do this on your laptop.</p>
+          <h3><a name="install-chefdk" class="anchor" href="#install-chefdk"><span class="octicon octicon-link"></span></a>Install the Chef DK</h3>
+
+<p>While we're at it, installing the <a href="https://downloads.chef.io/chefdk" target="_new">Chef DK</a> on your laptop will not hurt you.  It is installed on the VM we'll use for the class, but working inside the VM can be a little tougher than working directly in your own machine.</p>
+
+<h3><a name="the-source" class="anchor" href="#the-source"><span class="octicon octicon-link"></span></a>The Source</h3>
+<p>All the source control files for the class are located <a href="https://github.com/automation-tools-bootcamp/automation-tools-bootcamp" target="_new">on GitHub</a>.<br>
+</p>
+<h3><a name="the-boxes" class="anchor" href="#the-boxes"><span class="octicon octicon-link"></span></a>The Boxes</h3>
+
+<p>After checking out the source code, you now need to get you the three large files, a couple Vagrant boxes and an Ubuntu installer ISO.<br />
+<strong>The three files need to be placed in the <code>boxes</code> directory of the repo you just checked out for the class.</strong>
+<ol>
+  <li><code>atb-chefconf-2017-1.0.1_vbox.box</code></li>
+  <li><code>trusty-server-32.box</code></li>
+  <li><code>ubuntu-14.04.5-server-amd64.iso</code></li>
+</ol>
+There are two easy ways to get the files:<br />
+History says using the USB sticks will be easiest, but some people are not allowed to insert USB sticks in to their laptops, so there is option 2.
+<ol>
+  <li>There are orange USB sticks you may borrow that have the files on them.</li>
+  <li>You can download them locally.  I am running a Wi-Fi access point called "automation-tools".</li>
+  <ul>
+  	<li>After connecting to AP, connect to the File share.  On MacOS it is <code>smb://tplinklogin.net</code> to connect.</li>
+  	<li>On Windows it is <code>\\tplinklogin.net</code> instead.</li>
+  	<li>The login is atb/atb when prompted.</li>
+  </ul>
+</ol>
+</p>
+
+<h3><a name="project-setup" class="anchor" href="#project-setup"><span class="octicon octicon-link"></span></a>Getting your machine ready for Bootcamp</h3>
+The core of the projects we will work on are located on Vagrant boxes.  So you will need to <a href="./vagrant.html#vagrant-setup">Install Vagrant</a>.  The VMs you will use are defined in a <code>Vagrantfile</code> in most project's workouts.  If you are attending a live session of the Bootcamp your instructor will have copies of the VM available on USB drives.<br>
+<br>
+Beyond having VirtualBox and Vagrant running on your machine please complete the following steps.<br>
+<ol>
+  <li>Have a <a href="https://github.com/">GitHub account</a></li>
+  <li><a href="./git.html#workout">Install Git on your machine</a> so you can commit code and push it to GitHub.</li>
+  <li><a href="https://automationtools-bootcamp-slack.herokuapp.com/">Fill out this form</a> with your email to join the <a href="https://automationtools.slack.com/">Automation Tools Slack server</a></li>
+  <li>Join the <code>#chefconf2017</code> room in Slack</li>
+  <li>...</li>
+  <li>Profit!</li>
+</ol>
+
+<h3><a name="meeting-topics" class="anchor" href="#meeting-topics"><span class="octicon octicon-link"></span></a>Tutorial Topics</h3>
+
+<p>
+  The class will cover the following tools and will each last about one hour each.  They all have links to more indepth reading and instructions.  They won't teach you everything - they will get you started.<br />
+  <a href="./git.html">Intro to Git</a><br />
+  <a href="./vagrant.html">Intro to Vagrant</a><br />
+  <a href="./chef.html">Intro to Chef</a><br />
+  <a href="./chef-in-practice.html">Chef in Practice</a><br />
+  *** LUNCH ***<br />
+  <a href="./packer.html">Intro to Packer</a><br />
+  <a href="./docker.html">Intro to Docker</a><br />
+  <a href="./terraform.html">Intro to Terraform</a><br />
+  <a href="./inspec.html">Intro to InSpec</a><br />
+</p>
+
+<h3>
+<a name="workouts" class="anchor" href="#workouts"><span class="octicon octicon-link"></span></a>Workouts</h3>
+<p>Every topic will have a workout to be completed.  You won't fail the bootcamp by not doing the workout, but you probably will learn a lot more by doing than just reading/watching/listening.  Worse case scenario from doing the workout - you'll have a bunch of new tools installed on your machine when you're ready to play with any of this stuff at your job.</p>
+<h3>
+<a name="author-and-contributors" class="anchor" href="#author-and-contributors"><span class="octicon octicon-link"></span></a>Author and Contributors</h3>
+<p>These meetings are originally created by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="http://twitter.com/tfitch" target="_new">@tfitch</a>) a SRE from Adobe's Stock Photo site. Previously a Customer Architect on <a href="http://chef.io" target="_new">Chef</a>'s Customer Success team, Tyler is trying to share this with as many people as will listen to him.</p>
+        </section>
+
+        <aside id="sidebar">
+
+          <p class="repo-owner">Topics<br />
+            <a href="./tmux.html">Intro to tmux</a><br />
+            <a href="./git.html">Intro to Git</a><br />
+            <a href="./git-workflows.html">Intro to Git Workflows</a><br />
+            <a href="./vagrant.html">Intro to Vagrant</a><br />
+            <a href="./chef.html">Intro to Chef</a><br />
+            <a href="./chef-in-practice.html">Chef in Practice</a><br />
+            <a href="./packer.html">Intro to Packer</a><br />
+            <a href="./node-mongodb.html">Intro to Node.js and MongoDB</a><br />
+            <a href="./docker.html">Intro to Docker</a><br />
+            <a href="./consul.html">Intro to Consul</a><br />
+            <a href="./jenkins.html">Intro to Jenkins</a><br />
+            <!-- Day 2 -->
+            <a href="./artifactory.html">Intro to Artifactory</a><br />
+            <a href="./jenkins-pipeline.html">Intro to a Jenkins Pipeline</a><br />
+            <a href="./terraform.html">Intro to Terraform</a><br />
+            <a href="./inspec.html">Intro to InSpec</a><br />
+            <a href="./gatling.html">Intro to Gatling</a><br />
+            <a href="./sensu.html">Intro to Sensu</a><br />
+          </p>
+
+          <p class="repo-owner">Automation Tools Slack<br />
+            <script async defer src="http://automationtools-bootcamp-slack.herokuapp.com/slackin.js"></script>
+          </p>
+
+          <p class="repo-owner">Maintained by <a href="http://tfitch.com/about/" target="_new">Tyler Fitch</a> (<a href="https://twitter.com/tfitch" target="_new">@tfitch</a>).</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53342610-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
