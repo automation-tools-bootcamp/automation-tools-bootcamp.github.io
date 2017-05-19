@@ -34,15 +34,43 @@
 <p> The <a href="./chef.html">Introduction to Chef</a> showed information about <a href="http://chef.io" target="_new">Chef</a> and creating a first cookbook.<br />
   Here we are going to look at a few things to think about while doing your Chef development.</p>
 
-<h3><a name="advanced-practices" class="anchor" href="#advanced-practices"><span class="octicon octicon-link"></span></a>Advanced Practices with Chef</h3>
+<h3><a name="generators" class="anchor" href="#generators"><span class="octicon octicon-link"></span></a>Generating new cookbooks</h3>
+<p>There are several aspects of a creating a new cookbook that are tedious and repetitive.  To improve this experience there is the <code>chef generate cookbook y_cookbook_name</code> command.  This will give you great, fully functional cookbook code that does nothing.  This is not a bad thing, it just may not be the exact starting point you want for yourself or your team.<br />
+<br />
+Using a cookbook generator you can change the license of the cookbook, set your name and email address as the author and/or use completely different templates for things like the <code>.kitchen.yml</code> file.</p>
+<ul>
+  <li><a href="https://docs.chef.io/ctl_chef.html#chef-generate-cookbook" target="_new">Custom Resources</a></li>
+  <li><a href="https://github.com/echohack/pan" target="_new">Pan - a cookbook generator</a></li>
+</ul>
 
-<p>After creating a few cookbooks you'll find you want increased functionality (Handlers) or more robust resources.</p>
+
+<h3><a name="custom-resources" class="anchor" href="#custom-resources"><span class="octicon octicon-link"></span></a>Making your own Chef Resources</h3>
+
+<p>After creating a few cookbooks you'll find you want increased functionality from Handlers or more robust resources.<br />
+<br />
+A Custom Resource (before Chef Client version 12.5 these were built as Light Weight Resource Providers (LWRPs) or Heavy Weight Resource Providers (HWRPs)).  LWRPs and HWRPs were mostly a collection of boiler plate code to create your own pieces of functionality in a Chef recipe.<br />
+<br />
+Thankfully this process has been streamlined with Custom Resources.  So if you are currently running a version of the <code>chef-client</code> that older than 12.5, consider this another reason to upgrade (beyond the security reasons you should be upgrading the client...).  The result of creating your own Custom Resource is instead of using <code>package 'apache2' do ... end</code> you could create <code>adobe_installer 'apache2' do ... end</code> instead.  And inside my code, all the necessary proxies and internal package mirroring locations would be defined.  Now the other Chefs at work just need to know to use <code>adobe_installer</code> and all the proxy and mirroring information will be handled for them.<br />
+<ul>
+  <li><a href="https://docs.chef.io/custom_resources.html" target="_new">Custom Resources</a></li>
+</ul>
+</p>
+
+<h3><a name="handlers" class="anchor" href="#handlers"><span class="octicon octicon-link"></span></a>Handling events</h3>
+<p>Handlers are custom code that runs at the end of your <code>chef-client</code> runs.  You can have separate handlers for errors or successful <code>chef-client</code> runs.  This is often a place where you are likely to drop down in to pure Ruby code and start sending alerts or emails depending on what happened during the node's converge.<br />
+<br />My team runs the <code>chef-client</code> every 20 minutes and we have a rather stable environment, so the vast majority of Chef runs do nothing.  Therefore, we have Handlers in place that whenever a <code>chef-client</code> converges and a resource <em>does change</em> we send output of the changed resource to a room in Slack to confirm that our change has rolled out across our fleet.</p>
 
 <ul>
-  <li><a href="https://docs.chef.io/lwrp.html" target="_new">LWRPs</a></li>
-  <li>A great <a href="http://dougireton.com/blog/categories/lwrp/" target="_new">3-part tutorial on LWRPs</a> from Doug Ireton.</li>
   <li><a href="https://docs.chef.io/handlers.html" target="_new">Handlers</a></li>
 </ul>
+
+<h3><a name="supermarket" class="anchor" href="#supermarket"><span class="octicon octicon-link"></span></a>Run your own Supermarket</h3>
+<p><img src="./images/Rosauers.png" /><br />
+Sharing the cookbooks you have created with your co-workers can be difficult.  Well it used to be, Berkshelf made it easy for them to pull a cookbook down from a Git repo or local file path.  That works great from the command line, but is not as easy to consume as a human.  So the <a href="https://supermarket.chef.io" target="_new">Chef Supermarket</a> was created.  And then people wanted to start running their own Supermarket's to share their own cookbooks privately.  So the on-premise or <a href="https://docs.chef.io/supermarket.html#private-supermarket" target="_new">private Supermarket</a> installation process was created.<br />
+<br />
+Update your <code>Berksfile</code> to point to your internal Supermarket and easily consumer and share your cookbooks across your company.<br />
+<br />
+The Supermarket is not the only method available to do this sharing, others including JFrog's Artifactory have replicated the <code>/universe</code> endpoint used by Berkshelf to pull down cookbook dependencies from an artifact repo.</p>
 
 <h3><a name="key-files" class="anchor" href="#key-files"><span class="octicon octicon-link"></span></a>Pay attention to your Chef server key files</h3>
 
@@ -73,8 +101,19 @@ Encrypted data bags are not the only method to store secrets for Chef cookbooks.
 
 <p>We are going to complete the following actions</p>
 <ol>
-  <li>Create a data bag.</li>
-  <li>Use data bag value in cookbook</li>
+  <li>Update our local machine to use a custom cookbook generator.
+  <pre><code>chef gem install chef-flavor-pan</code></pre>
+  Add this to whatever your <code>knife.rb</code> you are currently using
+ <pre><code># only load ChefGen::Flavors if we're being called from the ChefDK CLI
+if defined?(ChefDK::CLI)
+  require 'chef_gen/flavors'
+  chefdk.generator_cookbook = ChefGen::Flavors.path
+end
+</code></pre>
+ And finally - we can generate a new cookbook by running <code>chef generate cookbook atb_chefconf_2017</code>
+  </li>
+  <li>Run <code>foodcritic</code> against our new cookbook</li>
+  <li>Run <code>cookstyle</code> against our new cookbook </li>
   <li>Converge the node with Test Kitchen <code>kitchen converge</code></li>
 </ol>
 
