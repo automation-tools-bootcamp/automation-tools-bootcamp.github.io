@@ -112,8 +112,11 @@ end
 </code></pre>
  And finally - we can generate a new cookbook by running <code>chef generate cookbook atb_chefconf_2017</code>
   </li>
+  <li>Repeat steps 6-12 of the <a href="./chef.html#workout">Chef workout</a> exactly as written, including <code>'</code> and <code>"</code></li>
   <li>Run <code>foodcritic</code> against our new cookbook</li>
+  <li>Correct any issues that may be reported</li>
   <li>Run <code>cookstyle</code> against our new cookbook </li>
+  <li>Again, correct any issues that may be reported</li>
   <li>Converge the node with Test Kitchen <code>kitchen converge</code></li>
 </ol>
 
