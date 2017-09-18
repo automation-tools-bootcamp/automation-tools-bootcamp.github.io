@@ -38,7 +38,7 @@ The configurations of your servers <a href="./chef.html">are now code</a>.<br />
 <br />
 So the next logical step is to have the creation of the machine resources for your application run as code too!<br />
 <br />
-"<a href="http://www.terraform.io" target="_new">Terraform</a> provides a common configuration to launch infrastructure. ... Simple file based configuration gives you a single view of your entire infrastructure." <a href="https://github.com/hashicorp/terraform" target="_new">Terraform is open source</a> and watched over by creator Mitchell Hashimoto and the team at Hashicorp.<br />
+"<a href="http://www.terraform.io" target="_new">Terraform</a> provides a common configuration to launch and manage infrastructure. ... Simple file based configuration gives you a single view of your entire infrastructure." <a href="https://github.com/hashicorp/terraform" target="_new">Terraform is open source</a> and watched over by creator Mitchell Hashimoto and the team at Hashicorp.<br />
 <br />
 <a href="https://www.terraform.io/intro/index.html" target="_new">Official Intro to Terraform</a>
 <br />
@@ -66,9 +66,10 @@ Aside from Terraform, there are other tools in this space you can research too.
 
 <h3><a name="terraform-providers" class="anchor" href="#terraform-providers"><span class="octicon octicon-link"></span></a>Terraform Providers</h3>
 <p>
-The reason I selecting Terraform over some of the providers above is because of the thorough support for the leading providers of API based resources - AKA Providers.<br />
+The reason I prefer Terraform over some of the alternatives above is because of the thorough support for the leading providers of API based resources - AKA Providers.<br />
 <ul>
   <li>AWS</li>
+  <li>And all the resouces in AWS like S3, EC2, IAM roles, Route 53, etc...</li>
   <li>OpenStack</li>
   <li>Azure</li>
   <li>DNSimple</li>
@@ -79,6 +80,22 @@ The reason I selecting Terraform over some of the providers above is because of 
   <li><a href="https://www.terraform.io/docs/providers/index.html" target="_new">many others</a></li>
 </ul>
 </p>
+
+<h3><a name="terraform-state" class="anchor" href="#terraform-state"><span class="octicon octicon-link"></span></a>Managing State in Terraform</h3>
+<p>As much fun as using Terraform is, it has one hard aspect to manage.  That is the idea of <a href="https://www.terraform.io/docs/state/index.html" target="_new">State</a>.<br />
+<br />
+In order for Terraform to keep track of all the things it is managing it uses state files.  On every run after the first, Terraform compares the state files to what is in the Terraform code to determine what has changed and needs to added, modified or deleted from the provider that is being managed.<br />
+<br />
+This becomes a problem as soon as more than one person wants to run the Terraform code.  How does user John get the state from when user Jane last ran Terraform?  This used to be a difficult prospect that many people would role their own solutions for.  But sharing state using "backends" has been added as a first class citizen in Terraform since version 0.7 was released.  The following list are some of the supported <a href="https://www.terraform.io/docs/backends/types" target="_new">backends</a> for shared state management.
+<ul>
+  <li><a href="https://www.terraform.io/docs/backends/types/artifactory.html" target="_new">Artifactory</a></li>
+  <li><a href="https://www.terraform.io/docs/backends/types/azurerm.html" target="_new">Azure</a></li>
+  <li><a href="https://www.terraform.io/docs/backends/types/s3.html" target="_new">AWS S3</a></li>
+  <li><a href="https://www.terraform.io/docs/backends/types/gcs.html" target="_new">Google Cloud Storage</a></li>
+  <li><a href="https://www.terraform.io/docs/backends/types/http.html" target="_new">Generic HTTP</a></li>
+</ul>
+
+<!-- TODO: Newer tools to visualize your Terraform state -->
 
 <h3><a name="extra-reading" class="anchor" href="#extra-reading"><span class="octicon octicon-link"></span></a>Extra Reading</h3>
 <p>
