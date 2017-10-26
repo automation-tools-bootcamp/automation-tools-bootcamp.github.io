@@ -148,30 +148,31 @@ When that completes (barring any errors in your cookbook), test the changes with
 
 <h3><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h3>
 
-<p>We are going to install Apache using the Chef community cookbook</p>
+<p>We are going to install the <a href="https://unifi-sdn.ubnt.com/#virtualize" target="_new">Unifi controller software</a> from <a href="https://ubnt.com">Ubiquiti</a> using the Chef community cookbook for <a href="https://supermarket.chef.io/cookbooks/unifi">Unifi</a>.</p>
 <ol>
   <li>From the top level of the Automation Tools git project <code>vagrant up</code> and <code>vagrant ssh</code> in to the big class VM that has everything installed.</li>
   <li>Ensure the Chef DK is properly installed and configured by running <code>chef verify</code> from the command prompt.</li>
   <li>Move in to the project's chef directory with a <code>cd /vagrant/chef</code> command.</li>
   <li>Create a new cookbook with the <code>chef generate cookbook bootcamp</code> for our project.</li>
   <li>As the resulting output says, we will want to <code>cd bootcamp</code> in to our new cookbook.</li>
-  <li>Edit the <code>metadata.rb</code> file to depend on the Apache2 community cookbook from the Chef Supermarket <code>depends 'apache2'</code>.</li>
-  <li>Edit the <code>recipes/default.rb</code> file to install Apache by including the default apache2 recipe <code>include_recipe "apache2::default"</code></li>
+  <li>Edit the <code>metadata.rb</code> file to depend on the Unifi community cookbook from the Chef Supermarket by adding the line <code>depends 'unifi'</code> at the bottom of the file.</li>
+  <li>Edit the <code>recipes/default.rb</code> file to install Apache by including the default apache2 recipe <code>include_recipe "unifi::default"</code></li>
   <li>Also edit the <code>recipes/default.rb</code> file to create a user called <code>bootcamp</code> using the native <a href="https://docs.chef.io/resource_user.html#examples" target="_new">user resource</a>.<pre><code>user 'bootcamp' do
   action :create
 end</code></pre></li>
-  <li>Make sure all the cookbook's dependencies, in this case the <code>apache2</code> cookbook is a dependency, have been downloaded by running the <code>berks install</code> command.</li>
+  <li>Make sure all the cookbook's dependencies, in this case the <code>unifi</code> cookbook is a dependency, have been downloaded by running the <code>berks install</code> command.</li>
   <li>Run <code>kitchen list</code> to see what VMs Test Kitchen is going to create when testing your cookbook.</li>
-  <li>Avoid downloading another entire Ubuntu (and CentOS) VM by changing the <code>.kitchen.yml</code> file to have the contents of the <code>kitchen.yml.example</code> file already in the git project's chef directory.</li>
+  <li>VMs in Vagrant are great, but compared to using containers in Docker the Vagrant VMs are mighty slow.</li>
+  <li>Avoid downloading Vagrant and entire Ubuntu (and CentOS) VMs by changing the <code>.kitchen.yml</code> file to have the contents of the <code>kitchen.yml.example</code> file already in the git project's chef directory.</li>
   <li>Verify that you're going to be testing a single VM by running <code>kitchen list</code> again.</li>
   <li>Converge the node with Test Kitchen <code>kitchen converge</code>. Note the output of the <code>chef-client</code> run.</li>
   <li>Connect to the VM via SSH (<code><a href="http://kitchen.ci/docs/getting-started/getting-help" target="_new">kitchen login</a></code>)</li>
   <li>Verify your <code>bootcamp</code> user exists on the machine with an <code>id bootcamp</code> command.</li>
-  <li>Now we will check that Apache is running with <code>curl localhost</code>.</li>
+  <li>Now we will check that Unifi is running with <code>wget --no-check-certificate https://localhost:8443</code>. Or by browsing to <a href="https://localhost:8443" target="_new">https://localhost:8443</a> in your own browser and port forwarding will bring the service up from the container inside the VM to be exposed on your own device.</li>
   <li>Next up, testing that our VM is in the proper state using the <code>kitchen verify</code> command.</li>
-  <li>One of the tests will fail, it makes sense because we are a webserver, edit the test in the <code>tests/recipes/default_test.rb</code> file so it will pass (<code>it { should be_listening }</code>) and run <code>kitchen verify</code> again.</li>
+  <li>By default both of the tests will be skipped, it makes sense because Chef doesn't know what your cookbook will do.</li>
+  <li>Edit the <code>tests/smoke/default/default_test.rb</code> file so it will verify the <code>bootcamp</code> user exists and the test that port <code>8443</code> is listening will pass too (<code>it { should be_listening }</code>). Then run <code>kitchen verify</code> again.</li>
   <li>When we're done with the VM you will <code>exit</code> and then the same as <a href="./vagrant.html" target="_new">Vagrant</a>, we will destroy it. <code>kitchen destroy</code> </li>
-  <li>Feel free to move on to more Chef topics with <a href="./chef-in-practice.html">Chef in Practice</a></li>
 </ol>
 
 

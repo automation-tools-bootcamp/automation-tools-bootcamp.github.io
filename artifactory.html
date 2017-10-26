@@ -91,19 +91,18 @@ Artifactory is not the only player in the repository management game.  It is nic
 <p>We are going to complete the following actions with Artifactory</p>
 <ol>
   <li>Artifactory is already baked in to the class VM as a Docker container.</li>
-  <li>Start up an Artifactory server using a Docker container. <code>sudo docker run --name artifactory -p 80:80 -p 8081:8081 -p 443:443 -p 5000-5002:5000-5002 jfrog-docker-reg2.bintray.io/jfrog/artifactory-registry:latest</code></li>
+  <li>Start up an Artifactory server using a Docker container. <code>docker run --name artifactory -p 80:80 -p 8081:8081 -p 443:443 -p 5000-5002:5000-5002 jfrog-docker-reg2.bintray.io/jfrog/artifactory-registry:latest</code></li>
   <li>Open the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web server</a>. It will automatically give you a new browser tab.</li>
   <li>Artifactory will prompt you for a license key in a yellow message at the top of the page. The key is available as a "pinned" message in the <code>#general</code> room on Automation Tools Slack.</li>
   <li>Change the <a href="https://www.jfrog.com/confluence/display/RTF/Managing+Users" target="_new">default login credentials</a> from <code>admin/password</code> to have a different password.</li>
-  <li>Add a custom image header in the General Configuration to differentiate your Artifactory server from others by giving it a little piece of flair.</li>
   <li>Now we will make our own "Generic" repository called <code>bootcamp</code>.</li>
   <li>Then Deploy a file to the generic <code>bootcamp</code> repo using the web interface.  Any file, try a zip file.  Then download the file from Artifactory.  Notice the download count - helpful to gauge your artifact's popularity or usage.</li>
   <li>This container for Artifactory already has a Docker registry enabled!  Let's use that now.</li>
   <li>Because Artifactory now has the focus of our terminal session, start another and <code>vagrant ssh</code> in to the class VM a second time. Or, if you are using <a href="tmux.html" target="_new">tmux</a>, split your session window in half and <code>vagrant ssh</code> from there.</li>
   <li>Go in to the <code>docker</code> directory with a <code>cd /vagrant/docker</code>.</li>
-  <li>Now we're going to <code>docker login</code> to the Artifactory instance with a <code>sudo docker login localhost:5002</code> and use the <code>admin</code> user and your password to connect.</li>
-  <li>Now tag the <code>atb</code> container image for the Artifactory server with <code>sudo docker tag atb localhost:5002/atb</code></li>
-  <li>The prep work is done, let's push the container image up. <code>sudo docker push localhost:5002/atb</code></li>
+  <li>Now we're going to <code>docker login</code> to the Artifactory instance with a <code>docker login localhost:5002</code> and use the <code>admin</code> user and your password to connect.</li>
+  <li>Now tag the <code>atb</code> container image for the Artifactory server with <code>docker tag atb localhost:5002/atb</code></li>
+  <li>The prep work is done, let's push the container image up. <code>docker push localhost:5002/atb</code></li>
   <li>Watch each layer of the container upload, and then view it in the <a href="http://localhost:8081/artifactory" target="_new">Artifactory web interface under the <code>docker-dev-local2</code> repository.</li>
 </ol>
         </section>

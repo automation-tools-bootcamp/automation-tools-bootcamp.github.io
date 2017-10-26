@@ -43,7 +43,7 @@ And that is about it.  Packer embodies the <a href="http://en.wikipedia.org/wiki
 
 <h3><a name="build-your-image" class="anchor" href="#build-your-image"><span class="octicon octicon-link"></span></a>How to build your image</h3>
 <p>
-Packer is here to create OS images of your server platforms.  "<a href="http://www.techopedia.com/definition/29456/golden-image" target="_new">Golden Images</a>" is a term used at times to describe this.
+Packer is here to create OS images of your server platforms.  "<a href="http://www.techopedia.com/definition/29456/golden-image" target="_new">Golden Images</a>" is a term used at times to describe this. But it is not VM images, it is Docker container images, Cloud provider images, or even going so far as to bundle your app in to an image of your preferred format.
 <br />
 <br />
 You need three things to be get running with Packer:
@@ -58,18 +58,19 @@ You need three things to be get running with Packer:
 <h3><a name="advanced-packer" class="anchor" href="#advanced-packer"><span class="octicon octicon-link"></span></a>Advanced Packer</h3>
 <p>
 Yes, Packer is just going to build images for you.  But there are mulitple paths to the destination.<br />
-The top list multiplied by the bottom list = a lot of possible combinations.  Pow. er. ful.  If Packer can't meet your environmental needs, get a better environment.  Or embrace the Open Source and add support to Packer for what you need.<br />
-<br />
-<a href="https://packer.io/docs/templates/provisioners.html" target="_new">Provisioners</a>
+Looking below, the top list multiplied by the bottom list = a lot of possible combinations.  Pow. er. ful.  If Packer can't meet your environmental needs, get a better environment.  Or embrace the Open Source and add support to Packer for what you need.<br />
+<h3><a name="provisioners" class="anchor" href="#provisioners"><span class="octicon octicon-link"></span></a>Provisioners</h3>
+<p>Provisioners are the scripts or configuration tools used to apply change from the original OS image to become the finished OS image.</p>
 <ul>
   <li>Shell Scripts</li>
   <li>Chef</li>
   <li>Puppet</li>
   <li>Salt</li>
   <li>Ansible</li>
-  <li>Others</li>
+  <li><a href="https://www.packer.io/docs/provisioners/index.html" target="_new">Others</a></li>
 </ul>
-<a href="https://packer.io/docs/templates/builders.html" target="_new">Builders</a> (output formats)
+<h3><a name="builders" class="anchor" href="#builders"><span class="octicon octicon-link"></span></a>Builders (output formats)</h3>
+<p>"Builders are responsible for creating machines and generating images from them for various platforms."</p>
 <ul>
   <li>Amazon EC2 (AMI)</li>
   <li>DigitalOcean</li>
@@ -78,22 +79,22 @@ The top list multiplied by the bottom list = a lot of possible combinations.  Po
   <li>OpenStack</li>
   <li>VirtualBox</li>
   <li>VMWare</li>
-  <li>Many others</li>
+  <li><a href="https://www.packer.io/docs/builders/index.html" target="_new">Many others</a></li>
 </ul>
 </p>
 
 <h2><a name="workout" class="anchor" href="#workout"><span class="octicon octicon-link"></span></a>Workout</h2>
 
-<p>We are going to complete the following actions</p>
+<p>We are going to complete the following actions to build a Docker container image with the Unifi cookbook from the Chef section applied to the OS.</p>
 <ol>
-  <li>Unfortunately, Packer (more specifically Virtualbox when used by Packer) isn't playing well in the class VM, so we will want to <a href="https://www.packer.io/intro/getting-started/setup.html" target="_new">install Packer</a> on YOUR machine.</li>
-  <li>If you're having trouble downloading the install, their are copies of the Packer installer for Windows and MacOS available on the class USB stick.</li>
-  <li>Make sure you've copied the provided <code>ubuntu-14.04.5-server-amd64.iso</code> in to the <code>boxes</code> directory of the Bootcamp git repo.</li>
-  <li>Ensure the JSON file for the packer project is valid and ready to go <code>packer validate example-ubuntu-14.04-amd64.json</code>.</li>
-  <li>If you see any errors reported, correct them (by just removing the offending lines of code).</li>
-  <li>Build your own Virtualbox box from the Ubuntu ISO <code>packer build example-ubuntu-14.04-amd64.json</code> (ask the person next to tell you their life story and check back for progress...).</li>
-  <li>Congratulations, the provided <code>scripts</code> have now built you your own Vagrant box.</li>
-  <li>When completed, you can <code>vagrant up</code> and <code>vagrant ssh</code> in to your newly built and up to date Ubuntu test server.</li>
+  <li>Working inside the VM for the class, let's move in to the Packer directory <code>cd /vagrant/packer-container</code></li>
+  <li>Ensure the JSON file for the packer project is valid and ready to go <code>packer validate example-unifi-ubuntu-16.04.json</code>.</li>
+  <li>If you see any errors reported (which you should), correct them with the following steps.</li>
+  <li>The bootcamp cookbook and it's dependent cookbooks need to be a single directory. The Chef tool Berkshelf has built-in functionality to do this called Vendoring. So <code>cd /vagrant/chef/bootcamp; berks vendor; cd /vagrant/packer-containers</code> to vendor the cookbooks and get back in our working directory.</li>
+  <li>Validate the Packer template again to ensure we are error free. <code>packer validate example-unifi-ubuntu-16.04.json</code></li>
+  <li>Now we're ready to build our new Docker container. <code>packer build example-unifi-ubuntu-16.04.json</code> (ask the person next to tell you their life story and check back for progress...).</li>
+  <li>Congratulations, the provided cookbook you created in the previous section you have now built you your own Docker container with Unifi installed.</li>
+  <li>When completed, you can run <code>docker images</code> and see the <code>automationtools/unifi</code> image in the list.</li>
 </ol>
         </section>
 
