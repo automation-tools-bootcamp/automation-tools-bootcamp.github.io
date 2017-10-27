@@ -54,7 +54,7 @@ Remember - <strong><em>Jenkins will only do what you tell it to do</em></strong>
 <ol>
   <li>Get in the <code>deployments</code> directory of the Automation Tools git repo and <code>vagrant up</code> our trusty VM.</li>
   <li>Start up a Jenkins server using Docker container.  <code>​
-sudo docker run -p 8080:8080 -p 50000:50000 -v /home/vagrant/jenkins_home:/var/jenkins_home jenkins:1.625.2</code></li>
+docker run -p 8080:8080 -p 50000:50000 -v /home/vagrant/jenkins_home:/var/jenkins_home jenkins:1.625.2</code></li>
   <li>Install the following list of plugins on your new <a href="http://localhost:8080" target="_new">Jenkins server</a>.</li>
     <ul>
       <li>SCM Sync Configuration Plugin</li>

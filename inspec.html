@@ -68,13 +68,16 @@ You don't want your machines to be in compliance just at the moment they are tur
 <ol>
   <li>InSpec is installed on our trusty VM.  It acutally comes bundled in the Chef DK, which is how it was installed on our class VM.</li>
   <li>We're going to execute the example <a href="https://github.com/dev-sec/tests-os-hardening#standalone-usage" target="_new">OS Hardening profile</a> against our class VM.</li>
-  <li>We already have InSpec OS hardening profile in the <code>inspec</code> directory, so let's go there on the VM <code>cd /vagrant/inspec</code>.</li>
-  <li><code>inspec exec tests-os-hardening</code></li>
+  <li>We can pull the most up to date Inspec profiles directly from GitHub and exec it against our VM by running <code>inspec exec https://github.com/dev-sec/linux-baseline</code></li>
   <li>The results will tell us how well I did making a hardened OS for the class VM.  ***Spoiler Alert*** I didn't make any efforts to do this.</li>
   <li>But, we can use same profile against one of our Docker containers from the <a href="./artifactory.html#workout">Artifactory workout</a>.  An example of using InSpec with the <code>docker://</code> transport is in the <a href="https://github.com/chef/inspec#detect" target="_new">InSpec README</a>.</li>
-  <li>First, let's make sure we can connect to the container. We know the name of our container is <code>artifactory</code> and since we are using Docker we'll <code>sudo</code> to make the command <code>sudo inspec detect -t docker://artifactory</code> and what do we learn about it?</li>
-  <li>Now we can do our scan with a <code>sudo inspec exec tests-os-hardening -t docker://artifactory</code>.</li>
+  <li>First, let's make sure we can connect to the container. We know the name of our container is <code>artifactory</code> and make the command <code>inspec detect -t docker://artifactory</code> and what do we learn about it? (If this fails, go back and <code>docker run</code> the Artifactory container from earlier.)</li>
+  <li>Now we can do our scan with a <code>inspec exec tests-os-hardening -t docker://artifactory</code>.</li>
   <li>The results say? Who released the more hardened OS image?</li>
+  <li>Next - we will check the path level of the Artifactory container and the class VM.</li>
+  <li><code>inspec exec https://github.com/dev-sec/linux-patch-baseline -t docker://artifactory</code></li>
+  <li><code>inspec exec https://github.com/dev-sec/linux-patch-baseline</code></li>
+  <li>Finally - <a href="https://github.com/dev-sec" target="_new">go find a profile</a> that is relevant to the work you do and scan one of your own machines! :yikes:</li>
 </ol>
         </section>
 

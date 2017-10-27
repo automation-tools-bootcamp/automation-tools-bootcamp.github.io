@@ -122,8 +122,12 @@ This is the tip of the iceberg for Docker.  Go forth and learn more!
 
 <p>We are going to complete the following actions:</p>
 <ol>
-  <li>The VM for our class has Docker installed, but it was installed as <code>root</code> so make sure all your <code>docker</code> commands are run as <code>sudo docker</code>.</li>
-  <li>In the VM <code>cd /vagrant/docker</code> which will put you in to the Automation Tools git repo's <code>docker</code> directory with the Dockerfile to be completed.</li>
+  <li>The VM for our class has Docker installed.</li>
+  <li>Make sure you have run a <code>vagrant destroy</code> on any VMs from the Vagrant section.</li>
+  <li>From the root level of the ATB git repository there is a <code>Vagrantfile</code> which will spin up the VM we will use the rest of the day.</li>
+  <li>If you are using a local copy of the <code>atb-lisa-2017-1.0.0_vbox.box</code> VM change the comments in line 21-23 of that Vagrantfile to reference you local copy of class VM instead of downloading it over the Internet.</li>
+  <li>Now - <code>vagrant up</code> and we're ready to begin.</li>
+  <li>In the VM <code>cd /vagrant/docker</code> which will put you in to the Automation Tools git repo's <code>docker</code> directory with the Dockerfile to be completed by you.</li>
   <li>Make yourself the <code>MAINTAINER</code> of the Dockerfile.</li>
   <li>You'll want to <code>EXPOSE</code> port 8085 to view the sample app.</li>
   <li>Create a directory using <code>RUN</code> to hold our application <code>mkdir -p /usr/src</code>.</li>
@@ -132,20 +136,20 @@ This is the tip of the iceberg for Docker.  Go forth and learn more!
   <li><code>WORKDIR</code> again to the directory (<code>/usr/src/example-nodejs-app</code>) where you checked out the repo.</li>
   <li><code>RUN npm install</code> which is the node.js command to install all the app's dependencies.</li>
   <li>Final thing for the Dockerfile: Use <code>CMD</code> to start the app with <code>CMD [ "npm", "start" ]</code>.</li>
-  <li>Make a <code>docker build</code> of your new image.  Be sure to tag it <code>-t atb</code> when you do.  <code>sudo docker build -t atb ./</code></li>
-  <li>Now it's time to <code>docker run</code> that new image as a container.  <code>sudo docker run -it --rm -p=8085:8085 atb</code>.</li>
+  <li>Make a <code>docker build</code> of your new image.  Be sure to tag it <code>-t atb</code> when you do.  <code>docker build -t atb ./</code></li>
+  <li>Now it's time to <code>docker run</code> that new image as a container.  <code>docker run -it --rm -p=8085:8085 atb</code>.</li>
   <li><a href="http://localhost:8085" target="_new">View the app in your browser</a>.</li>
   <li>Since the container is not daemonized (which you'd do with the <code>-d</code> switch, instead of <code>-it</code> switches), use Ctrl-C to kill <code>npm start</code> and exit the container.</li>
 </ol>
 
 <h2><a name="bonus-workout" class="anchor" href="#bonus-workout"><span class="octicon octicon-link"></span></a>Bonus Workout</h2>
 
-<p>We are going to complete the following actions to push our container to the Docker Hub:</p>
+<p>If you're really feeling empowered, you have the option to complete the following actions to push your container to the Docker Hub:</p>
 <ol>
   <li>If you do not already have a Docker Hub account, create a <a href="https://hub.docker.com/account/signup/" target="_new">Docker Hub account</a> so you can push your finished container to the Docker Hub.</li>
-  <li>Tag our <code>atb</code> container with your Docker Hub userID. <code>sudo docker tag atb &lt;DockerHubID&gt;/atb</code></li>
-  <li>Make sure you are logged in Docker Hub by running <code>sudo docker login</code>.</li>
-  <li>Use <code>sudo docker push &lt;DockerHubID&gt;/atb</code> to upload your image to the Docker Hub.</li>
+  <li>Tag our <code>atb</code> container with your Docker Hub userID. <code>docker tag atb &lt;YourDockerHubID&gt;/atb</code></li>
+  <li>Make sure you are logged in Docker Hub by running <code>docker login</code>.</li>
+  <li>Use <code>docker push &lt;YourDockerHubID&gt;/atb</code> to upload your image to the Docker Hub.</li>
 </ol>
         </section>
 
