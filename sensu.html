@@ -72,7 +72,7 @@ What is even better?  Sensu has been developed from the start to use all the Nag
 <p>We are going to complete the following actions with Sensu</p>
 <ol>
   <li>Get in the <code>sensu</code> directory of our app and <code>vagrant up</code> our trusty VM</li>
-  <li>Start up a Sensu server using a Docker container. <code>sudo docker run -d -p 8090:8080 -p 4567:4567 arcus/sensu</code></li>
+  <li>Start up a Sensu server using a Docker container. <code>docker run -d -p 8090:8080 -p 4567:4567 arcus/sensu</code></li>
   <li>Install the <a href="http://sensuapp.org/docs/0.16/packages" target="_new">Sensu package</a> on the VM (which is running Ubuntu) so it will become a Sensu Agent.</li>
   <li><a href="http://sensuapp.org/docs/0.16/guide" target="_new">Enable and start the Agent</a> as a service on the VM.</li>
   <li>Start up Jenkins on the VM, same as how you did before.</li>
